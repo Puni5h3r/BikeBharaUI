@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BikeBharaUI</string>
+    <string name="hint_username">User Name</string>
+    <string name="hint_password">Password</string>
+    <string name="err_msg_userName">Enter valid User Name</string>
+    <string name="err_msg_password">Enter the password</string>
+
+</resources>
