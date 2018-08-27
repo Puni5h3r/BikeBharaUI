@@ -4,7 +4,6 @@ public class UserManagementList {
     private String name;
     private String phoneNumber;
     private String transactionHistory;
-    private String timeDate;
 
     public UserManagementList() {
     }
@@ -13,7 +12,7 @@ public class UserManagementList {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.transactionHistory = transactionHistory;
-        this.timeDate = timeDate;
+
     }
 
     public String getName() {
@@ -44,11 +43,7 @@ public class UserManagementList {
         this.transactionHistory = transactionHistory;
     }
 
-    public String getTimeDate() {
-        return timeDate;
-    }
-    public void setTimeDate(String n){
-        this.timeDate=n;
-    }
+
+
 }
 
