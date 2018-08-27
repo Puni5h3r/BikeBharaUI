@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 submitForm(); // on click of the login button, the method checks whether the given user name and password is unreasonable
 
-                Intent intent = new Intent(MainActivity.this,);
-                startActivity(intent);
 
             }
         });
@@ -67,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(MainActivity.this,DashboardActivity.class);
+        startActivity(intent);
 
 
     }
