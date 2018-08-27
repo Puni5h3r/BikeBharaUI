@@ -22,6 +22,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             phone = (TextView) view.findViewById(R.id.textView_phone4);
             date = (TextView) view.findViewById(R.id.textView_date4);
             depositeride = (TextView) view.findViewById(R.id.textView_ridedeposite);
+            amount = (TextView) view.findViewById(R.id.textView_amount2);
 
         }
     }
