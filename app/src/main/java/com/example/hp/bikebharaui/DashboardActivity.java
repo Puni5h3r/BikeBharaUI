@@ -24,7 +24,8 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     public void rideHistory(View view) {
-
+        Intent intent = new Intent(DashboardActivity.this, RideHistory.class);
+        startActivity(intent);
 
 
     }
