@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManagement extends AppCompatActivity {
+public class UserManagementActivity extends AppCompatActivity {
     private List<UserManagementList> userManagementListArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private UserManagementAdapter mAdapter;

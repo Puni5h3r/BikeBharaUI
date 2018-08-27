@@ -24,19 +24,23 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     public void rideHistory(View view) {
-        Intent intent = new Intent(DashboardActivity.this, RideHistory.class);
+        Intent intent = new Intent(DashboardActivity.this, RideHistoryActivity.class);
         startActivity(intent);
+
+
 
 
     }
 
     public void userManagement(View view) {
-        Intent intent = new Intent(DashboardActivity.this, UserManagement.class);
+        Intent intent = new Intent(DashboardActivity.this, UserManagementActivity.class);
         startActivity(intent);
 
     }
 
     public void depostiMoney(View view) {
+        Intent intent = new Intent(DashboardActivity.this, DepositHistoryActivity.class);
+        startActivity(intent);
 
 
     }

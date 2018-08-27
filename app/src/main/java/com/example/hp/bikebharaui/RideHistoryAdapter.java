@@ -41,6 +41,7 @@ public class RideHistoryAdapter extends RecyclerView.Adapter<RideHistoryAdapter.
         RideHistoryList rideHistoryList = rideHistoryLists.get(position);
         holder.name.setText(rideHistoryList.getName());
         holder.phone.setText(rideHistoryList.getPhoneNumber());
+        holder.date.setText(rideHistoryList.getTimeDate());
     }
 
     @Override

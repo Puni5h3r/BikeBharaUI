@@ -18,8 +18,9 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".UserManagement" />
-        <activity android:name=".RideHistory"></activity>
+        <activity android:name=".UserManagementActivity" />
+        <activity android:name=".RideHistoryActivity" />
+        <activity android:name=".DepositHistoryActivity"></activity>
     </application>
 
 </manifest>

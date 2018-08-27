@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RideHistory extends AppCompatActivity {
+public class RideHistoryActivity extends AppCompatActivity {
     private List<RideHistoryList> rideHistoryLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private RideHistoryAdapter mAdapter;
