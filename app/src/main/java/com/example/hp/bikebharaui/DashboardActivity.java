@@ -46,6 +46,8 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void logRide(View view) {
+        Intent intent = new Intent(DashboardActivity.this, LogRideActivity.class);
+        startActivity(intent);
 
 
     }
