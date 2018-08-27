@@ -1,10 +1,13 @@
-package com.example.hp.bikebharaui;
+package com.example.hp.bikebharaui.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.model.RideHistoryList;
 
 import java.util.List;
 

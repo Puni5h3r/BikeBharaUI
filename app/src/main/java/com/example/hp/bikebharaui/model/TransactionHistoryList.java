@@ -1,4 +1,4 @@
-package com.example.hp.bikebharaui;
+package com.example.hp.bikebharaui.model;
 
 public class TransactionHistoryList {
     private String name;

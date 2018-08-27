@@ -1,10 +1,12 @@
-package com.example.hp.bikebharaui;
+package com.example.hp.bikebharaui.view.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.hp.bikebharaui.R;
 
 public class DashboardActivity extends AppCompatActivity {
 

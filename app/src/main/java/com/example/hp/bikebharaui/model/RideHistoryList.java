@@ -1,27 +1,22 @@
-package com.example.hp.bikebharaui;
+package com.example.hp.bikebharaui.model;
 
-public class DepositeHistoryList {
+public class RideHistoryList {
     private String name;
     private String phoneNumber;
     private String timeDate;
-    private String amount;
 
-    public DepositeHistoryList() {
+    public RideHistoryList() {
     }
 
-    public DepositeHistoryList(String name, String phoneNumber, String timeDate, String amount) {
+    public RideHistoryList(String name, String phoneNumber, String timeDate) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.timeDate = timeDate;
-        this.amount = amount;
     }
 
     public String getName() {
         return name;
     }
-
-
-
 
 
     public void setName(String name) {
@@ -43,13 +38,4 @@ public class DepositeHistoryList {
     public void setTimeDate(String n){
         this.timeDate=n;
     }
-
-
-    public String getAmount() {
-        return amount;
-    }
-    public void setAmount(String n){
-        this.amount=n;
-    }
-
 }

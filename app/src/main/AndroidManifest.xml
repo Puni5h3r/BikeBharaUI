@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,12 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".UserManagementActivity" />
-        <activity android:name=".RideHistoryActivity" />
-        <activity android:name=".DepositHistoryActivity" />
-        <activity android:name=".LogRideActivity" />
-        <activity android:name=".TransactionHistoryActivity"></activity>
+        <activity android:name=".view.activity.DashboardActivity" />
+        <activity android:name=".view.activity.UserManagementActivity" />
+        <activity android:name=".view.activity.RideHistoryActivity" />
+        <activity android:name=".view.activity.DepositHistoryActivity" />
+        <activity android:name=".view.activity.LogRideActivity" />
+        <activity android:name=".view.activity.TransactionHistoryActivity"></activity>
     </application>
 
 </manifest>

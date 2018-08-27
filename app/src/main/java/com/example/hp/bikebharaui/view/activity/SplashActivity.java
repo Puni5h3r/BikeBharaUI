@@ -1,10 +1,12 @@
-package com.example.hp.bikebharaui;
+package com.example.hp.bikebharaui.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
+
+import com.example.hp.bikebharaui.MainActivity;
+import com.example.hp.bikebharaui.R;
 
 
 public class SplashActivity extends Activity {
