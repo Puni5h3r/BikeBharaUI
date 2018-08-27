@@ -22,7 +22,7 @@ public class UserManagementActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.user_management_recyclerview);
 
-        mAdapter = new UserManagementAdapter(userManagementListArrayList);
+        mAdapter = new UserManagementAdapter(userManagementListArrayList,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
