@@ -1,5 +1,6 @@
 package com.example.hp.bikebharaui;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitForm(); // on click of the login button, the method checks whether the given user name and password is unreasonable
+
+                Intent intent = new Intent(MainActivity.this,);
+                startActivity(intent);
+
             }
         });
 
