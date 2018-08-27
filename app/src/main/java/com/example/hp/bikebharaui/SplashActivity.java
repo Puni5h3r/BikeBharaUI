@@ -9,13 +9,16 @@ import android.support.v4.app.ActivityCompat;
 
 public class SplashActivity extends Activity {
 
+    // this activity is made for splash screen which is supposed to pop up when the app starts
+
     Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        handler=new Handler();
+        handler=new Handler(); //handler class called, handlers can basically communicate with UI and is a background thread
+        //handler.postDelayed will call run method of runnable after set time and redirect to main app screen.
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

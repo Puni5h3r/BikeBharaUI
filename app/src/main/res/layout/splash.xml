@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    >
 
     <ImageView
         android:id="@+id/bike_logo"
@@ -19,6 +21,7 @@
         android:layout_below="@+id/bike_logo"
         android:text="বাইক ভাড়া"
         android:textSize="40sp"
+        android:textColor="#000"
         />
 
     <TextView
@@ -28,7 +31,8 @@
         android:layout_marginTop="40dp"
         android:text="প্যাস্যাঞ্জার / বাইকার"
         android:textSize="24sp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#424242"/>
 
 
 

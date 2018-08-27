@@ -14,10 +14,15 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    //this activity is made for the login screen
+
     private EditText inputUserName,inputPassword;
     private TextInputLayout inputLayoutUserName, inputLayoutPassword;
     private Button btnLogin;
 
+    //all the views are set and defined
+    //in this activity there is a login screen for user, for putting his user name and password...
+    //the user name and password in EditText is checked beforehand, incase the user puts something unreasonable
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitForm();
+                submitForm(); // on click of the login button, the method checks whether the given user name and password is unreasonable
             }
         });
 
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void submitForm() {
+        // inside this method, two other boolean methods are called, to check if name & password is valid or not, or else a text will show thankyou
         if (!validateName()) {
             return;
         }
@@ -59,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+        // boolean method which checks the edit text of username and uses the Text inputlayout widget to show a pop when empty
     private boolean validateName() {
         if (inputUserName.getText().toString().trim().isEmpty()) {
             inputLayoutUserName.setError(getString(R.string.err_msg_userName));
@@ -71,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    // boolean method which checks the edit text of password and uses the Text inputlayout widget to show a pop when empty
     private boolean validatePassword() {
         if (inputPassword.getText().toString().trim().isEmpty()) {
             inputLayoutPassword.setError(getString(R.string.err_msg_password));
@@ -83,10 +94,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private static boolean isValidEmail(String userName) {
-        return !TextUtils.isEmpty(userName);                                 // android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -94,20 +101,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class MyTextWatcher implements TextWatcher {
 
+
+    private class MyTextWatcher implements TextWatcher {
+        //view class defined
         private View view;
 
         private MyTextWatcher(View view) {
             this.view = view;
-        }
+        } // this login view is referred to the view class
 
+
+        //these are base method for checking input from the user
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
 
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
-
+        //again checks for validation without the even pressing of the button
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.user_name:
