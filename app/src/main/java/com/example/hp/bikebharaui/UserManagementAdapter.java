@@ -8,30 +8,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAdapter.MyViewHolder> {
 
     private List<UserManagementList> userManagementList;
     Context mContext;
+    public interface TransactionHistoryClickListener{
+        public void onClickListener(int position);
+    }
+
+    TransactionHistoryClickListener mClickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, phone, transactionhistory;
+        private TextView name, phone, transactionhistory;
+
+        private WeakReference<TransactionHistoryClickListener> mReference;
 
         public MyViewHolder(View view) {
             super(view);
+            mReference= new WeakReference<TransactionHistoryClickListener>(mClickListener);
             name = (TextView) view.findViewById(R.id.textView_name);
             phone = (TextView) view.findViewById(R.id.textView_phone);
             transactionhistory = (TextView) view.findViewById(R.id.trancationhistory_TV);
 
+            transactionhistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mReference.get().onClickListener(getAdapterPosition());
+                }
+            });
 
         }
     }
 
 
-    public UserManagementAdapter(List<UserManagementList> x, Context mContext) {
-        this.userManagementList = x;
-        this.mContext = mContext;
+    public UserManagementAdapter(List<UserManagementList> userManagementList,TransactionHistoryClickListener mClickListener ) {
+        this.userManagementList = userManagementList;
+        this.mClickListener = mClickListener;
     }
 
     @Override
@@ -48,13 +63,13 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
         holder.name.setText(userManagementList1.getName());
         holder.phone.setText(userManagementList1.getPhoneNumber());
 
-        holder.transactionhistory.setOnClickListener(new View.OnClickListener() {
+       /* holder.transactionhistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
                 mContext.startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
