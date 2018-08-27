@@ -21,7 +21,8 @@
         <activity android:name=".UserManagementActivity" />
         <activity android:name=".RideHistoryActivity" />
         <activity android:name=".DepositHistoryActivity" />
-        <activity android:name=".LogRideActivity"></activity>
+        <activity android:name=".LogRideActivity" />
+        <activity android:name=".TransactionHistoryActivity"></activity>
     </application>
 
 </manifest>
