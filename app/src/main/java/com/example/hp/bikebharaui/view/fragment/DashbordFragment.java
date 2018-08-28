@@ -35,6 +35,7 @@ public class DashbordFragment extends BaseFragment{
         btn1 = view.findViewById(R.id.button1);
         btn2 = view.findViewById(R.id.button2);
         btn3 = view.findViewById(R.id.button3);
+
         btn4 = view.findViewById(R.id.button4);
         return view;
     }
