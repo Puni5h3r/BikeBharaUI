@@ -13,7 +13,7 @@ public class SplashActivity extends Activity {
 
     // this activity is made for splash screen which is supposed to pop up when the app starts
 
-    Handler handler;
+    private Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

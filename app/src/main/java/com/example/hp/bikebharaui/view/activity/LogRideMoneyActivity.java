@@ -1,7 +1,9 @@
 package com.example.hp.bikebharaui.view.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,8 +15,9 @@ import com.example.hp.bikebharaui.R;
 
 public class LogRideMoneyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button btnSave;
-    Spinner spinner;
+   private Button btnSave;
+   private Spinner spinner;
+   private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,17 @@ public class LogRideMoneyActivity extends AppCompatActivity implements AdapterVi
 
         btnSave = findViewById(R.id.button_log_ride_money_save);
         spinner = findViewById(R.id.spinner2);
+
+        toolbar=findViewById(R.id.toolbar_log_ride_money);
+
+        toolbar.setTitle("Log Ride");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogRideMoneyActivity.this, DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

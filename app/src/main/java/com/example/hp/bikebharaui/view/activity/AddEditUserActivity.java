@@ -1,8 +1,10 @@
 package com.example.hp.bikebharaui.view.activity;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.example.hp.bikebharaui.R;
 
 public class AddEditUserActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     private EditText inputName, inputMobile, inputPassword;
     private TextInputLayout inputLayoutName, inputLayoutMobile, inputLayoutPassword;
     private Button btnSave;
@@ -31,6 +34,17 @@ public class AddEditUserActivity extends AppCompatActivity {
         inputMobile = (EditText) findViewById(R.id.input_phonenumber1);
         inputPassword = (EditText) findViewById(R.id.input_password1);
         btnSave = (Button) findViewById(R.id.btn_ssave);
+
+        toolbar = findViewById(R.id.toolbar_add_edit_user);
+
+        toolbar.setTitle("User Management");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddEditUserActivity.this,DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));

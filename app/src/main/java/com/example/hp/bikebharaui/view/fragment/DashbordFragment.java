@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toolbar;
 
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.view.activity.DepositHistoryActivity;
@@ -18,6 +19,7 @@ import com.example.hp.bikebharaui.view.activity.UserManagementActivity;
 public class DashbordFragment extends BaseFragment implements View.OnClickListener{
 
     private Button btnUserManagement, btn2, btn3, btn4;
+
     public DashbordFragment() {
     }
 
@@ -34,7 +36,6 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
         btnUserManagement = view.findViewById(R.id.btnUserManagement);
         btn2 = view.findViewById(R.id.button2);
         btn3 = view.findViewById(R.id.button3);
-
         btn4 = view.findViewById(R.id.button4);
 
         setListener();
@@ -43,6 +44,9 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
     private void setListener() {
         btnUserManagement.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
     }
 
     @Override
@@ -51,10 +55,24 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
             case R.id.btnUserManagement:
                 userManagement();
                 break;
+
+            case R.id.button2:
+                rideHistory();
+                break;
+
+            case R.id.button3:
+                depostiMoney();
+                break;
+
+            case R.id.button4:
+                logRide();
+                break;
+
+
         }
     }
 
-    public void rideHistory(View view) {
+    public void rideHistory() {
         Intent intent = new Intent(getContext(), RideHistoryActivity.class);
         startActivity(intent);
 
@@ -69,14 +87,14 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    public void depostiMoney(View view) {
+    public void depostiMoney() {
         Intent intent = new Intent(getContext(), DepositHistoryActivity.class);
         startActivity(intent);
 
 
     }
 
-    public void logRide(View view) {
+    public void logRide() {
         Intent intent = new Intent(getContext(), LogRideActivity.class);
         startActivity(intent);
 

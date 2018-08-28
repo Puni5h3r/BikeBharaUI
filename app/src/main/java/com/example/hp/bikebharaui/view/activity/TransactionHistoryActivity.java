@@ -1,10 +1,13 @@
 package com.example.hp.bikebharaui.view.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
@@ -16,6 +19,8 @@ import java.util.List;
 
 public class TransactionHistoryActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
+
     private List<TransactionHistoryList> transactionHistoryLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionHistoryAdapter mAdapter;
@@ -26,6 +31,17 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_history);
 
         recyclerView = findViewById(R.id.transaction_history_recyclerView);
+
+        toolbar = findViewById(R.id.toolbar_transaction_history);
+        toolbar.setTitle("Transaction History");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TransactionHistoryActivity.this,UserManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         mAdapter = new TransactionHistoryAdapter(transactionHistoryLists);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

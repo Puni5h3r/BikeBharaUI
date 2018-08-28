@@ -1,6 +1,7 @@
 package com.example.hp.bikebharaui.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.UserManagementList;
+import com.example.hp.bikebharaui.view.activity.AddEditUserActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -21,16 +23,23 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
         public void onClickListener(int position);
     }
 
+    public interface NameClickListener{
+        public void onClickListener(int position);
+    }
+
     TransactionHistoryClickListener mClickListener;
+    NameClickListener nameClickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name, phone, transactionhistory;
 
         private WeakReference<TransactionHistoryClickListener> mReference;
+        private WeakReference<NameClickListener> nameReference;
 
         public MyViewHolder(View view) {
             super(view);
             mReference= new WeakReference<TransactionHistoryClickListener>(mClickListener);
+            nameReference = new WeakReference<NameClickListener>(nameClickListener);
             name = (TextView) view.findViewById(R.id.textView_name);
             phone = (TextView) view.findViewById(R.id.textView_phone);
             transactionhistory = (TextView) view.findViewById(R.id.trancationhistory_TV);
@@ -42,13 +51,21 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
                 }
             });
 
+            name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nameReference.get().onClickListener(getAdapterPosition());
+                }
+            });
+
         }
     }
 
 
-    public UserManagementAdapter(List<UserManagementList> userManagementList,TransactionHistoryClickListener mClickListener ) {
+    public UserManagementAdapter(List<UserManagementList> userManagementList,TransactionHistoryClickListener mClickListener, NameClickListener nameClickListener ) {
         this.userManagementList = userManagementList;
         this.mClickListener = mClickListener;
+        this.nameClickListener=nameClickListener;
     }
 
     @Override
@@ -65,13 +82,7 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
         holder.name.setText(userManagementList1.getName());
         holder.phone.setText(userManagementList1.getPhoneNumber());
 
-       /* holder.transactionhistory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
-                mContext.startActivity(intent);
-            }
-        });*/
+
     }
 
     @Override

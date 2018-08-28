@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManagementActivity extends AppCompatActivity {
+    private Toolbar toolbar;
+
     private List<UserManagementList> userManagementListArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private UserManagementAdapter mAdapter;
@@ -27,12 +31,31 @@ private Context mContext;
         setContentView(R.layout.activity_user_management);
         mContext=this;
 
+        toolbar = findViewById(R.id.toolbar_user_management);
+        toolbar.setTitle("User Management");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserManagementActivity.this, DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         recyclerView = (RecyclerView) findViewById(R.id.user_management_recyclerview);
 
         mAdapter = new UserManagementAdapter(userManagementListArrayList, new UserManagementAdapter.TransactionHistoryClickListener() {
             @Override
             public void onClickListener(int position) {
                 Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
+                mContext.startActivity(intent);
+            }
+        }, new UserManagementAdapter.NameClickListener() {
+            @Override
+            public void onClickListener(int position) {
+                Intent intent = new Intent(mContext,AddEditUserActivity.class);
                 mContext.startActivity(intent);
             }
         });
