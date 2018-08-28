@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.hp.bikebharaui.view.activity.AddEditUserActivity;
 import com.example.hp.bikebharaui.view.activity.DashboardActivity;
+import com.example.hp.bikebharaui.view.activity.DepositMoneyActivity;
+import com.example.hp.bikebharaui.view.activity.LogRideMoneyActivity;
 
 public class MainActivity extends AppCompatActivity {
 

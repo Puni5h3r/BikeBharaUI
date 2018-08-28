@@ -22,7 +22,10 @@
         <activity android:name=".view.activity.RideHistoryActivity" />
         <activity android:name=".view.activity.DepositHistoryActivity" />
         <activity android:name=".view.activity.LogRideActivity" />
-        <activity android:name=".view.activity.TransactionHistoryActivity"></activity>
+        <activity android:name=".view.activity.TransactionHistoryActivity" />
+        <activity android:name=".view.activity.AddEditUserActivity" />
+        <activity android:name=".view.activity.DepositMoneyActivity" />
+        <activity android:name=".view.activity.LogRideMoneyActivity"></activity>
     </application>
 
 </manifest>
