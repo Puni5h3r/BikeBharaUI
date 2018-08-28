@@ -11,14 +11,18 @@ import android.widget.Button;
 import android.widget.Toolbar;
 
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.activity.DepositHistoryActivity;
 import com.example.hp.bikebharaui.view.activity.LogRideActivity;
 import com.example.hp.bikebharaui.view.activity.RideHistoryActivity;
 
 
-public class DashbordFragment extends BaseFragment implements View.OnClickListener {
+public class DashbordFragment extends BaseFragment implements View.OnClickListener, IOnBackPressed {
 
     private Button btnUserManagement, btn2, btn3, btn4;
+
+
+    private int countBackPress = 0;
 
     public DashbordFragment() {
     }
@@ -99,5 +103,17 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
         startActivity(intent);
 
 
+    }
+
+    @Override
+    public boolean onBackPress() {
+        countBackPress++;
+        if (countBackPress != 2) {
+            //action not popBackStack
+            return true;
+        } else {
+            countBackPress=0;
+            return false;
+        }
     }
 }
