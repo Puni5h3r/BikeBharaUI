@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.hp.bikebharaui.R;
-import com.example.hp.bikebharaui.view.activity.DashboardActivity;
 import com.example.hp.bikebharaui.view.activity.DepositHistoryActivity;
 import com.example.hp.bikebharaui.view.activity.LogRideActivity;
 import com.example.hp.bikebharaui.view.activity.RideHistoryActivity;
 import com.example.hp.bikebharaui.view.activity.UserManagementActivity;
 
-public class DashbordFragment extends BaseFragment{
+public class DashbordFragment extends BaseFragment implements View.OnClickListener{
 
-    private Button btn1, btn2, btn3, btn4;
+    private Button btnUserManagement, btn2, btn3, btn4;
     public DashbordFragment() {
     }
 
@@ -32,14 +31,28 @@ public class DashbordFragment extends BaseFragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.frag_dashbord,container,false);
-        btn1 = view.findViewById(R.id.button1);
+        btnUserManagement = view.findViewById(R.id.btnUserManagement);
         btn2 = view.findViewById(R.id.button2);
         btn3 = view.findViewById(R.id.button3);
 
         btn4 = view.findViewById(R.id.button4);
+
+        setListener();
         return view;
     }
 
+    private void setListener() {
+        btnUserManagement.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnUserManagement:
+                userManagement();
+                break;
+        }
+    }
 
     public void rideHistory(View view) {
         Intent intent = new Intent(getContext(), RideHistoryActivity.class);
@@ -50,7 +63,7 @@ public class DashbordFragment extends BaseFragment{
 
     }
 
-    public void userManagement(View view) {
+    public void userManagement() {
         Intent intent = new Intent(getContext(), UserManagementActivity.class);
         startActivity(intent);
 
