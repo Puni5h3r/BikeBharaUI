@@ -22,18 +22,55 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
+    <LinearLayout
+        android:id="@+id/searchbox_deposit_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_deposit_history"
+        >
+
+        <ImageButton
+            android:id="@+id/button_searchbox_deposit_history"
+            android:layout_width="44dp"
+            android:layout_height="49dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/baseline_search_black_18dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+
+            />
+
+        <EditText
+            android:id="@+id/edittext_searchbox_deposit_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_box_design"
+            android:hint="Search"
+            android:maxLines="6"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
+
+    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/deposite_history_recyclerview"
         android:layout_width="match_parent"
 
-        android:layout_height="514dp"
+        android:layout_height="462dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_deposit_history">
+        app:layout_constraintTop_toBottomOf="@+id/searchbox_deposit_history">
 
 
     </android.support.v7.widget.RecyclerView>
