@@ -14,9 +14,9 @@ import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.view.activity.DepositHistoryActivity;
 import com.example.hp.bikebharaui.view.activity.LogRideActivity;
 import com.example.hp.bikebharaui.view.activity.RideHistoryActivity;
-import com.example.hp.bikebharaui.view.activity.UserManagementActivity;
 
-public class DashbordFragment extends BaseFragment implements View.OnClickListener{
+
+public class DashbordFragment extends BaseFragment implements View.OnClickListener {
 
     private Button btnUserManagement, btn2, btn3, btn4;
 
@@ -32,7 +32,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view= inflater.inflate(R.layout.frag_dashbord,container,false);
+        View view = inflater.inflate(R.layout.frag_dashbord, container, false);
         btnUserManagement = view.findViewById(R.id.btnUserManagement);
         btn2 = view.findViewById(R.id.button2);
         btn3 = view.findViewById(R.id.button3);
@@ -51,7 +51,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnUserManagement:
                 userManagement();
                 break;
@@ -77,13 +77,13 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
         startActivity(intent);
 
 
-
-
     }
 
     public void userManagement() {
-        Intent intent = new Intent(getContext(), UserManagementActivity.class);
-        startActivity(intent);
+  /*      Intent intent = new Intent(getContext(), UserManagementActivity.class);
+        startActivity(intent);*/
+
+        loadFragment(new UserManagementFragment(), DashbordFragment.class.getSimpleName());
 
     }
 

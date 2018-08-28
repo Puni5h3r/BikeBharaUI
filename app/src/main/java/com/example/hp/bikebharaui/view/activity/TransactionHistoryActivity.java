@@ -37,8 +37,8 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TransactionHistoryActivity.this,UserManagementActivity.class);
-                startActivity(intent);
+             /*   Intent intent = new Intent(TransactionHistoryActivity.this,UserManagementActivity.class);
+                startActivity(intent);*/
             }
         });
 

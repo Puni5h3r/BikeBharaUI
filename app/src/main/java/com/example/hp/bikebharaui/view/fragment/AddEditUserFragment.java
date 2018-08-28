@@ -1,13 +1,16 @@
-package com.example.hp.bikebharaui.view.activity;
+package com.example.hp.bikebharaui.view.fragment;
 
 import android.content.Intent;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,27 +18,38 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
 
-public class AddEditUserActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+
+public class AddEditUserFragment extends BaseFragment {
+
+//    private Toolbar toolbar;
     private EditText inputName, inputMobile, inputPassword;
     private TextInputLayout inputLayoutName, inputLayoutMobile, inputLayoutPassword;
     private Button btnSave;
 
+    public AddEditUserFragment() {
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_edit_user);
+    }
 
-        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name1);
-        inputLayoutMobile = (TextInputLayout) findViewById(R.id.input_layout_phonenumber1);
-        inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password1);
-        inputName = (EditText) findViewById(R.id.input_name1);
-        inputMobile = (EditText) findViewById(R.id.input_phonenumber1);
-        inputPassword = (EditText) findViewById(R.id.input_password1);
-        btnSave = (Button) findViewById(R.id.btn_ssave);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view= inflater.inflate(R.layout.frag_add_edit_user,container,false);
 
-        toolbar = findViewById(R.id.toolbar_add_edit_user);
+
+        inputLayoutName = (TextInputLayout) view.findViewById(R.id.input_layout_name1);
+        inputLayoutMobile = (TextInputLayout) view.findViewById(R.id.input_layout_phonenumber1);
+        inputLayoutPassword = (TextInputLayout) view.findViewById(R.id.input_layout_password1);
+        inputName = (EditText) view.findViewById(R.id.input_name1);
+        inputMobile = (EditText) view.findViewById(R.id.input_phonenumber1);
+        inputPassword = (EditText) view.findViewById(R.id.input_password1);
+        btnSave = (Button) view.findViewById(R.id.btn_ssave);
+
+    /*    toolbar = findViewById(R.id.toolbar_add_edit_user);
 
         toolbar.setTitle("User Management");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -44,7 +58,7 @@ public class AddEditUserActivity extends AppCompatActivity {
                 Intent intent = new Intent(AddEditUserActivity.this,DashboardActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
@@ -57,10 +71,7 @@ public class AddEditUserActivity extends AppCompatActivity {
                 submitForm();
             }
         });
-
-
-
-
+        return view;
     }
 
     private void submitForm() {
@@ -77,7 +88,7 @@ public class AddEditUserActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -122,7 +133,7 @@ public class AddEditUserActivity extends AppCompatActivity {
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+           getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
 
@@ -154,7 +165,4 @@ public class AddEditUserActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }
