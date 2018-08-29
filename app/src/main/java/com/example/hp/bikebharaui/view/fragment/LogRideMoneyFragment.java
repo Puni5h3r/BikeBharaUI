@@ -1,6 +1,9 @@
 package com.example.hp.bikebharaui.view.fragment;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -60,6 +63,7 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
         //Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+
 
 
 
