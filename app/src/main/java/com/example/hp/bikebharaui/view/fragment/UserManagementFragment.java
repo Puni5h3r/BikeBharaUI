@@ -11,19 +11,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.UserManagementList;
 
+import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.adapter.UserManagementAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManagementFragment extends BaseFragment {
+public class UserManagementFragment extends BaseFragment implements IOnBackPressed {
 
     private Context mContext;
 
@@ -54,6 +57,7 @@ public class UserManagementFragment extends BaseFragment {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("User Management");
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
 
@@ -93,6 +97,27 @@ public class UserManagementFragment extends BaseFragment {
 
         prepareData();
         return view;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                // getActivity().onBackPressed();
+                onBackPress();
+
+                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onBackPress() {
+        return false;
     }
 
     private void prepareData() {
