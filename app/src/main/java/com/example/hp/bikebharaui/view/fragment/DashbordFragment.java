@@ -8,18 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
-import com.example.hp.bikebharaui.view.activity.DepositHistoryActivity;
-import com.example.hp.bikebharaui.view.activity.LogRideActivity;
-import com.example.hp.bikebharaui.view.activity.RideHistoryActivity;
 
 
 public class DashbordFragment extends BaseFragment implements View.OnClickListener, IOnBackPressed {
 
-    private Button btnUserManagement, btn2, btn3, btn4;
+    private Button btnUserManagement, btnRideHistory, btnDepositHistory, btnLogRide;
 
 
     private int countBackPress = 0;
@@ -38,9 +34,9 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
         View view = inflater.inflate(R.layout.frag_dashbord, container, false);
         btnUserManagement = view.findViewById(R.id.btnUserManagement);
-        btn2 = view.findViewById(R.id.button2);
-        btn3 = view.findViewById(R.id.button3);
-        btn4 = view.findViewById(R.id.button4);
+        btnRideHistory = view.findViewById(R.id.btnRideHistory);
+        btnDepositHistory = view.findViewById(R.id.btnDepositHistory);
+        btnLogRide = view.findViewById(R.id.btnLogRide);
 
         setListener();
         return view;
@@ -48,9 +44,9 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
     private void setListener() {
         btnUserManagement.setOnClickListener(this);
-        btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
-        btn4.setOnClickListener(this);
+        btnRideHistory.setOnClickListener(this);
+        btnDepositHistory.setOnClickListener(this);
+        btnLogRide.setOnClickListener(this);
     }
 
     @Override
@@ -60,15 +56,15 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
                 userManagement();
                 break;
 
-            case R.id.button2:
+            case R.id.btnRideHistory:
                 rideHistory();
                 break;
 
-            case R.id.button3:
+            case R.id.btnDepositHistory:
                 depostiMoney();
                 break;
 
-            case R.id.button4:
+            case R.id.btnLogRide:
                 logRide();
                 break;
 
@@ -77,8 +73,10 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void rideHistory() {
-        Intent intent = new Intent(getContext(), RideHistoryActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), RideHistoryActivity.class);
+//        startActivity(intent);
+
+        loadFragment(new RideHistoryFragment(),DashbordFragment.class.getSimpleName());
 
 
     }
@@ -92,15 +90,19 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void depostiMoney() {
-        Intent intent = new Intent(getContext(), DepositHistoryActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), DepositHistoryActivity.class);
+//        startActivity(intent);
+
+        loadFragment(new DepositHistoryFragment(),DashbordFragment.class.getSimpleName());
 
 
     }
 
     public void logRide() {
-        Intent intent = new Intent(getContext(), LogRideActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), LogRideActivity.class);
+//        startActivity(intent);
+
+        loadFragment(new LogRideFragment(),DashbordFragment.class.getSimpleName());
 
 
     }

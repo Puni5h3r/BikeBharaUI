@@ -1,68 +1,86 @@
-package com.example.hp.bikebharaui.view.activity;
+package com.example.hp.bikebharaui.view.fragment;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.RideHistoryList;
+import com.example.hp.bikebharaui.view.activity.LogRideMoneyActivity;
 import com.example.hp.bikebharaui.view.adapter.RideHistoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RideHistoryActivity extends AppCompatActivity {
-   private Toolbar toolbar;
-   private FloatingActionButton fabRideHistoryActivity;
+public class RideHistoryFragment extends BaseFragment {
+    private Context mContext;
+
+   // private Toolbar toolbar;
+    private FloatingActionButton fabRideHistoryActivity;
 
     private List<RideHistoryList> rideHistoryLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private RideHistoryAdapter mAdapter;
 
+    public  RideHistoryFragment(){}
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ride_history);
+    }
 
-        toolbar = findViewById(R.id.toolbar_ride_history);
-        toolbar.setTitle("Ride history");
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frag_ride_history,container,false);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RideHistoryActivity.this,DashboardActivity.class);
-                startActivity(intent);
-            }
-        });
+        mContext = getContext();
 
-        fabRideHistoryActivity = findViewById(R.id.fab_ride_history);
+        fabRideHistoryActivity = view.findViewById(R.id.fab_ride_history);
 
         fabRideHistoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             Intent intent = new Intent(RideHistoryActivity.this, LogRideMoneyActivity.class);
-             startActivity(intent);
+                Intent intent = new Intent(mContext, LogRideMoneyActivity.class);
+                mContext.startActivity(intent);
             }
         });
 
+//        toolbar = findViewById(R.id.toolbar_ride_history);
+//        toolbar.setTitle("Ride history");
+//
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(RideHistoryActivity.this,DashboardActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        recyclerView = (RecyclerView) findViewById(R.id.ride_history_recyclerView);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.ride_history_recyclerView);
 
         mAdapter = new RideHistoryAdapter(rideHistoryLists);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+        recyclerView.addItemDecoration(new MyDividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL, 16));
         recyclerView.setAdapter(mAdapter);
 
         prepareData();
+
+
+        return view;
     }
 
     private void prepareData() {

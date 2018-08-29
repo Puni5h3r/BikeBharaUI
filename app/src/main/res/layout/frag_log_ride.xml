@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.RideHistoryActivity">
+    tools:context=".view.activity.LogRideActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout_ride_history"
+        android:id="@+id/appBarLayout_log_ride"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_ride_history"
+            android:id="@+id/toolbar_log_ride"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:navigationIcon="?attr/homeAsUpIndicator"/>
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:id="@+id/searchbox_ride_history"
+        android:id="@+id/saerchbox_log_ride"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -30,24 +30,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_ride_history"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_log_ride">
 
-
-        <ImageButton
-            android:id="@+id/button_searchbox_ride_history"
-            android:layout_width="44dp"
-            android:layout_height="49dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/baseline_search_black_18dp"
-            android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingRight="10dp"
-
-            />
 
         <EditText
-            android:id="@+id/edittext_searchbox_ride_history"
+            android:id="@+id/edittext_searchbox_log_ride"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -58,29 +45,42 @@
             android:hint="Search"
             android:maxLines="6"
             android:padding="8dp"
-            android:focusable="false"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:focusable="false"/>
+
+        <ImageButton
+            android:id="@+id/button_searchbox_log_ride"
+            android:layout_width="44dp"
+            android:layout_height="49dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/baseline_search_black_18dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+
+            />
 
 
     </LinearLayout>
 
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/ride_history_recyclerView"
+        android:id="@+id/log_ride_recylerView"
         android:layout_width="match_parent"
-        android:layout_height="457dp"
+        android:layout_height="460dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchbox_ride_history">
+        app:layout_constraintTop_toBottomOf="@+id/saerchbox_log_ride">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_ride_history"
+        android:id="@+id/fab_log_ride"
         android:src="@drawable/ic_action_add_floating_icon"
+
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

@@ -18,8 +18,6 @@ import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.UserManagementList;
 
-import com.example.hp.bikebharaui.view.activity.TransactionHistoryActivity;
-
 import com.example.hp.bikebharaui.view.adapter.UserManagementAdapter;
 
 import java.util.ArrayList;
@@ -73,8 +71,10 @@ public class UserManagementFragment extends BaseFragment {
         mAdapter = new UserManagementAdapter(userManagementListArrayList, new UserManagementAdapter.TransactionHistoryClickListener() {
             @Override
             public void onClickListener(int position) {
-                Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
+//                mContext.startActivity(intent);
+
+                loadFragment(new TransactionHistoryFragment(),UserManagementFragment.class.getSimpleName());
             }
         }, new UserManagementAdapter.NameClickListener() {
             @Override

@@ -32,6 +32,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout_transaction_history">
 
+        <EditText
+            android:id="@+id/edittext_searchbox_transaction_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_box_design"
+            android:hint="Search"
+            android:focusable="false"
+            android:maxLines="6"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
         <ImageButton
             android:id="@+id/button_searchbox_transaction_history"
             android:layout_width="44dp"
@@ -43,20 +58,6 @@
             android:paddingRight="10dp"
 
             />
-
-        <EditText
-            android:id="@+id/edittext_searchbox_transaction_history"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_box_design"
-            android:hint="Search"
-            android:maxLines="6"
-            android:padding="8dp"
-            android:textColor="@color/black" />
 
     </LinearLayout>
 
