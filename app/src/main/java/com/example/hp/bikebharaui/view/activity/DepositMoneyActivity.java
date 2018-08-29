@@ -25,7 +25,7 @@ public class DepositMoneyActivity extends AppCompatActivity implements AdapterVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deposit_money);
+        setContentView(R.layout.frag_deposit_money);
 
         btnSave = findViewById(R.id.button_deposit_save);
         spinner = findViewById(R.id.spinner1);
