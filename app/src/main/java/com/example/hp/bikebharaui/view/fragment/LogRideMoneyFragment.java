@@ -16,23 +16,41 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
 
-public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItemSelectedListener {
-
+public class LogRideMoneyFragment extends BaseFragment implements AdapterView.OnItemSelectedListener{
 
     private Button btnSave;
     private Spinner spinner;
     private Toolbar toolbar;
-    Context mContext;
+    private Context mContext;
+
+    public LogRideMoneyFragment(){
+
+
+
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.frag_deposit_money,container,false);
+        View view = inflater.inflate(R.layout.frag_log_ride_money,container,false);
 
-       mContext=getContext();
+        btnSave = view.findViewById(R.id.button_log_ride_money_save);
+        spinner = view.findViewById(R.id.spinner2);
 
-        btnSave = view.findViewById(R.id.button_deposit_save);
-        spinner = view.findViewById(R.id.spinner1);
+        mContext=getContext();
+
+//        toolbar=findViewById(R.id.toolbar_log_ride_money);
+//
+//        toolbar.setTitle("Log Ride");
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(LogRideMoneyActivity.this, DashboardActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
 
 
         // setting the spinner
@@ -43,20 +61,14 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-//        toolbar = findViewById(R.id.toolbar_deposite_money);
-//
-//        toolbar.setTitle("Deposit Money");
-//
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DepositMoneyActivity.this,DashboardActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//
-      return view;
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -71,19 +83,12 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
 
         }
 
-
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
         Toast.makeText(mContext,"you haven't selected anything, please select",Toast.LENGTH_LONG).show();
 
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 }

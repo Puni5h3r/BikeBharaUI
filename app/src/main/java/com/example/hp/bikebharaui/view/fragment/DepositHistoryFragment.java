@@ -1,7 +1,6 @@
 package com.example.hp.bikebharaui.view.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.DepositeHistoryList;
-import com.example.hp.bikebharaui.view.activity.DepositMoneyActivity;
 import com.example.hp.bikebharaui.view.adapter.DeposityHistoryAdapter;
 
 import java.util.ArrayList;
@@ -70,8 +68,10 @@ public class DepositHistoryFragment extends BaseFragment {
         fabDepositeHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,DepositMoneyActivity.class);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext,DepositMoneyActivity.class);
+//                mContext.startActivity(intent);
+
+                loadFragment(new DepositMoneyFrag(),DepositHistoryFragment.class.getSimpleName());
             }
         });
 

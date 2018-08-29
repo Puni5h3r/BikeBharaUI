@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.RideHistoryList;
-import com.example.hp.bikebharaui.view.activity.LogRideMoneyActivity;
 import com.example.hp.bikebharaui.view.adapter.RideHistoryAdapter;
 
 import java.util.ArrayList;
@@ -51,8 +50,10 @@ public class RideHistoryFragment extends BaseFragment {
         fabRideHistoryActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, LogRideMoneyActivity.class);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, LogRideMoneyActivity.class);
+//                mContext.startActivity(intent);
+
+                loadFragment(new LogRideMoneyFragment(), RideHistoryFragment.class.getSimpleName());
             }
         });
 

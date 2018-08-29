@@ -19,8 +19,6 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".view.activity.DashboardActivity" />
 
-        <activity android:name=".view.activity.DepositMoneyActivity" />
-        <activity android:name=".view.activity.LogRideMoneyActivity"></activity>
     </application>
 
 </manifest>

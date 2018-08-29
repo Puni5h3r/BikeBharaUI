@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 
 import com.example.hp.bikebharaui.view.activity.DashboardActivity;
-import com.example.hp.bikebharaui.view.activity.DepositMoneyActivity;
-import com.example.hp.bikebharaui.view.activity.LogRideMoneyActivity;
 
 public class MainActivity extends AppCompatActivity {
 
