@@ -6,6 +6,7 @@
     <string name="err_msg_password">Enter the password</string>
     <string name="hint_phonenumber">Mobile No</string>
     <string name="err_msg_phonenumber">Enter the Mobile No</string>
+    <string name="err_msg_amount">Enter the Amount</string>
 
     <string-array name="dummyforspinner">
         <item>Select</item>
