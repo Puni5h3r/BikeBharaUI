@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,12 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_dashbord, container, false);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         btnUserManagement = view.findViewById(R.id.btnUserManagement);
         btnRideHistory = view.findViewById(R.id.btnRideHistory);
         btnDepositHistory = view.findViewById(R.id.btnDepositHistory);
@@ -76,7 +84,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 //        Intent intent = new Intent(getContext(), RideHistoryActivity.class);
 //        startActivity(intent);
 
-        loadFragment(new RideHistoryFragment(),DashbordFragment.class.getSimpleName());
+        loadFragment(new RideHistoryFragment(), DashbordFragment.class.getSimpleName());
 
 
     }
@@ -93,7 +101,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 //        Intent intent = new Intent(getContext(), DepositHistoryActivity.class);
 //        startActivity(intent);
 
-        loadFragment(new DepositHistoryFragment(),DashbordFragment.class.getSimpleName());
+        loadFragment(new DepositHistoryFragment(), DashbordFragment.class.getSimpleName());
 
 
     }
@@ -102,7 +110,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 //        Intent intent = new Intent(getContext(), LogRideActivity.class);
 //        startActivity(intent);
 
-        loadFragment(new LogRideFragment(),DashbordFragment.class.getSimpleName());
+        loadFragment(new LogRideFragment(), DashbordFragment.class.getSimpleName());
 
 
     }
@@ -114,7 +122,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
             //action not popBackStack
             return true;
         } else {
-            countBackPress=0;
+            countBackPress = 0;
             return false;
         }
     }

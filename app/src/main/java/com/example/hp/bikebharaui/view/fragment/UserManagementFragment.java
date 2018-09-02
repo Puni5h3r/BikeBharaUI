@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,12 +22,13 @@ import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.UserManagementList;
 
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
+import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 import com.example.hp.bikebharaui.view.adapter.UserManagementAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManagementFragment extends BaseFragment implements IOnBackPressed {
+public class UserManagementFragment extends BaseFragment implements IOnOptionsItemPress {
 
     private Context mContext;
 
@@ -51,13 +53,14 @@ public class UserManagementFragment extends BaseFragment implements IOnBackPress
         mContext = getContext();
 
 
-
         if (getActivity() != null) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
             toolbar = view.findViewById(R.id.toolbar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("User Management");
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle("User Management");
+                actionBar.setDisplayHomeAsUpEnabled(true);
             }
         }
 
@@ -78,7 +81,7 @@ public class UserManagementFragment extends BaseFragment implements IOnBackPress
 //                Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
 //                mContext.startActivity(intent);
 
-                loadFragment(new TransactionHistoryFragment(),UserManagementFragment.class.getSimpleName());
+                loadFragment(new TransactionHistoryFragment(), UserManagementFragment.class.getSimpleName());
             }
         }, new UserManagementAdapter.NameClickListener() {
             @Override
@@ -100,23 +103,30 @@ public class UserManagementFragment extends BaseFragment implements IOnBackPress
     }
 
 
+/*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 // getActivity().onBackPressed();
-                onBackPress();
+//                onBackPress();
 
-                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
-                return true;
+                Toast.makeText(getContext(), "hello", Toast.LENGTH_SHORT).show();
+//                return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
+*/
 
-
+/*
     @Override
     public boolean onBackPress() {
+        return false;
+    }*/
+
+    @Override
+    public boolean onHomeOptionPress() {
         return false;
     }
 
