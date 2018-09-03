@@ -4,9 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +17,15 @@ import android.view.ViewGroup;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.TransactionHistoryList;
+import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 import com.example.hp.bikebharaui.view.adapter.TransactionHistoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionHistoryFragment extends BaseFragment {
+public class TransactionHistoryFragment extends BaseFragment implements IOnOptionsItemPress {
 
-    //private Toolbar toolbar;
+    private Toolbar toolbar;
     Context mContext;
 
     private List<TransactionHistoryList> transactionHistoryLists = new ArrayList<>();
@@ -29,8 +33,8 @@ public class TransactionHistoryFragment extends BaseFragment {
     private TransactionHistoryAdapter mAdapter;
 
 
- public TransactionHistoryFragment(){}
-
+    public TransactionHistoryFragment() {
+    }
 
 
     @Override
@@ -41,10 +45,22 @@ public class TransactionHistoryFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-     View view = inflater.inflate(R.layout.frag_transaction_history,container,false);
-     mContext=getContext();
+        View view = inflater.inflate(R.layout.frag_transaction_history, container, false);
+        mContext = getContext();
 
         recyclerView = view.findViewById(R.id.transaction_history_recyclerView);
+
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            toolbar = view.findViewById(R.id.toolbar);
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar != null){
+                actionBar.setTitle("Transaction history");
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
 
 //        toolbar = findViewById(R.id.toolbar_transaction_history);
 //        toolbar.setTitle("Transaction History");
@@ -66,31 +82,31 @@ public class TransactionHistoryFragment extends BaseFragment {
 
         prepareData();
 
+        return view;
+    }
 
-
-
-
-     return view;
+    @Override
+    public boolean onHomeOptionPress() {
+        return false;
     }
 
     private void prepareData() {
-        TransactionHistoryList t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk","deposite");
+        TransactionHistoryList t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "deposite");
         transactionHistoryLists.add(t);
 
-        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk","ride");
+        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
         transactionHistoryLists.add(t);
 
-        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk","ride");
+        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
         transactionHistoryLists.add(t);
 
-        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk","ride");
+        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
         transactionHistoryLists.add(t);
 
-        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk","ride");
+        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
         transactionHistoryLists.add(t);
 
         mAdapter.notifyDataSetChanged();
-
 
 
     }

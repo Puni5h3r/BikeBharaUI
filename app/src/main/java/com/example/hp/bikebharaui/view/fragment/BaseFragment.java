@@ -8,17 +8,14 @@ import com.example.hp.bikebharaui.R;
 
 public class BaseFragment extends Fragment {
 
-    public void loadFragment(Fragment fragment, String backStack) {
+    public void loadFragment(Fragment fragment ) {
         FragmentManager manager = getFragmentManager();
 
+        String backStack=fragment.getClass().getSimpleName();
         if (manager != null){
-
            FragmentTransaction ft= manager.beginTransaction();
-
            ft.replace(R.id.container,fragment);
-
            ft.addToBackStack(backStack);
-
            ft.commit();
         }
     }

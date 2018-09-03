@@ -63,7 +63,7 @@ public class LogRideFragment extends BaseFragment {
             public void onClick(View v) {
 //                Intent intent = new Intent(mContext,LogRideMoneyActivity.class);
 //                mContext.startActivity(intent);
-                loadFragment(new LogRideMoneyFragment(), RideHistoryFragment.class.getSimpleName());
+                loadFragment(new LogRideMoneyFragment());
             }
         });
 

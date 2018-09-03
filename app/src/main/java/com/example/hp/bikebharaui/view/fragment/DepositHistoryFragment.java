@@ -71,7 +71,7 @@ public class DepositHistoryFragment extends BaseFragment {
 //                Intent intent = new Intent(mContext,DepositMoneyActivity.class);
 //                mContext.startActivity(intent);
 
-                loadFragment(new DepositMoneyFrag(),DepositHistoryFragment.class.getSimpleName());
+                loadFragment(new DepositMoneyFrag());
             }
         });
 

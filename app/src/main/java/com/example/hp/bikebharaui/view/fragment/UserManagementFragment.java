@@ -64,13 +64,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
             }
         }
 
-     /*   toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UserManagementActivity.this, DashboardActivity.class);
-                startActivity(intent);
-            }
-        });*/
+
 
 
         recyclerView = (RecyclerView) view.findViewById(R.id.user_management_recyclerview);
@@ -81,7 +75,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
 //                Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
 //                mContext.startActivity(intent);
 
-                loadFragment(new TransactionHistoryFragment(), UserManagementFragment.class.getSimpleName());
+                loadFragment(new TransactionHistoryFragment());
             }
         }, new UserManagementAdapter.NameClickListener() {
             @Override
@@ -89,7 +83,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
              /*   Intent intent = new Intent(mContext,AddEditUserActivity.class);
                 mContext.startActivity(intent);*/
 
-                loadFragment(new AddEditUserFragment(), UserManagementFragment.class.getSimpleName());
+                loadFragment(new AddEditUserFragment());
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -103,27 +97,6 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
     }
 
 
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // getActivity().onBackPressed();
-//                onBackPress();
-
-                Toast.makeText(getContext(), "hello", Toast.LENGTH_SHORT).show();
-//                return true;
-        }
-
-        return true;
-    }
-*/
-
-/*
-    @Override
-    public boolean onBackPress() {
-        return false;
-    }*/
 
     @Override
     public boolean onHomeOptionPress() {

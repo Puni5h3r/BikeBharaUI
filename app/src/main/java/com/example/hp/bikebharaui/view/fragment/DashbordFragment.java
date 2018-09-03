@@ -84,7 +84,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 //        Intent intent = new Intent(getContext(), RideHistoryActivity.class);
 //        startActivity(intent);
 
-        loadFragment(new RideHistoryFragment(), DashbordFragment.class.getSimpleName());
+        loadFragment(new RideHistoryFragment());
 
 
     }
@@ -93,7 +93,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
   /*      Intent intent = new Intent(getContext(), UserManagementActivity.class);
         startActivity(intent);*/
 
-        loadFragment(new UserManagementFragment(), DashbordFragment.class.getSimpleName());
+        loadFragment(new UserManagementFragment());
 
     }
 
@@ -101,7 +101,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 //        Intent intent = new Intent(getContext(), DepositHistoryActivity.class);
 //        startActivity(intent);
 
-        loadFragment(new DepositHistoryFragment(), DashbordFragment.class.getSimpleName());
+        loadFragment(new DepositHistoryFragment());
 
 
     }
@@ -110,7 +110,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 //        Intent intent = new Intent(getContext(), LogRideActivity.class);
 //        startActivity(intent);
 
-        loadFragment(new LogRideFragment(), DashbordFragment.class.getSimpleName());
+        loadFragment(new LogRideFragment());
 
 
     }
