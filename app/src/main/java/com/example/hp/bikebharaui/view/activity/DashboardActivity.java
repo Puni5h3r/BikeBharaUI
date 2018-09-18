@@ -16,12 +16,13 @@ import com.example.hp.bikebharaui.view.fragment.DashbordFragment;
 
 public class DashboardActivity extends BaseActivity {
 
-
+    private int countBackPress = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         loadFragment(new DashbordFragment());
+
 
 
     }
@@ -33,12 +34,21 @@ public class DashboardActivity extends BaseActivity {
 
         // stop application exit from the application
         if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPress()) {
-            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-            homeIntent.addCategory(Intent.CATEGORY_HOME);
-            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(homeIntent);
-        } else
-            Toast.makeText(this, "want to exit!", Toast.LENGTH_SHORT).show();
+            ++countBackPress;
+            if(countBackPress==1){
+                Toast.makeText(this, "press back again if you want to exit", Toast.LENGTH_SHORT).show();
+            }
+           else if(countBackPress==2) {
+                countBackPress=0;
+                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                homeIntent.addCategory(Intent.CATEGORY_HOME);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(homeIntent);
+            }
+        } else {
+            getSupportFragmentManager().popBackStack();
+            //  Toast.makeText(this, "press back again if you want to exit", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

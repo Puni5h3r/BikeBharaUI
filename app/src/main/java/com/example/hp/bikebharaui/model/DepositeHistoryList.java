@@ -5,6 +5,7 @@ public class DepositeHistoryList {
     private String phoneNumber;
     private String timeDate;
     private String amount;
+    private String depositHisotryid;
 
     public DepositeHistoryList() {
     }
@@ -52,4 +53,11 @@ public class DepositeHistoryList {
         this.amount=n;
     }
 
+    public String getDepositHisotryid() {
+        return depositHisotryid;
+    }
+
+    public void setDepositHisotryid(String depositHisotryid) {
+        this.depositHisotryid = depositHisotryid;
+    }
 }

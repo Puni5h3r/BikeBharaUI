@@ -4,6 +4,7 @@ public class RideHistoryList {
     private String name;
     private String phoneNumber;
     private String timeDate;
+    private String rideHistoryId;
 
     public RideHistoryList() {
     }
@@ -37,5 +38,13 @@ public class RideHistoryList {
     }
     public void setTimeDate(String n){
         this.timeDate=n;
+    }
+
+    public String getRideHistoryId() {
+        return rideHistoryId;
+    }
+
+    public void setRideHistoryId(String rideHistoryId) {
+        this.rideHistoryId = rideHistoryId;
     }
 }

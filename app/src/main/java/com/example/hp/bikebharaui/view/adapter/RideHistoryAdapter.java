@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.RideHistoryList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RideHistoryAdapter extends RecyclerView.Adapter<RideHistoryAdapter.MyViewHolder> {
@@ -50,6 +51,12 @@ public class RideHistoryAdapter extends RecyclerView.Adapter<RideHistoryAdapter.
     @Override
     public int getItemCount() {
         return rideHistoryLists.size();
+    }
+    public void updateList(List<RideHistoryList> newList){
+        rideHistoryLists = new ArrayList<>();
+        rideHistoryLists.addAll(newList);
+        notifyDataSetChanged();
+
     }
 
 

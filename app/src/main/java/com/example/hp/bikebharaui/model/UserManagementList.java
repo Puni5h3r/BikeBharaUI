@@ -4,6 +4,7 @@ public class UserManagementList {
     private String name;
     private String phoneNumber;
     private String transactionHistory;
+    private String userManagementID;
 
     public UserManagementList() {
     }
@@ -44,6 +45,12 @@ public class UserManagementList {
     }
 
 
+    public String getUserManagementListID() {
+        return userManagementID;
+    }
 
+    public void setUserManagementListID(String userManagementListID) {
+        this.userManagementID = userManagementListID;
+    }
 }
 

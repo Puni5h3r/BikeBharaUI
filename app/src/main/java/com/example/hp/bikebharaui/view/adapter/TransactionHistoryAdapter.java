@@ -10,10 +10,17 @@ import android.widget.TextView;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.TransactionHistoryList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.MyViewHolder> {
   private List<TransactionHistoryList> transactionHistoryListList;
+
+    public void updateList(List<TransactionHistoryList> newList) {
+            transactionHistoryListList = new ArrayList<>();
+            transactionHistoryListList.addAll(newList);
+            notifyDataSetChanged();
+        }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

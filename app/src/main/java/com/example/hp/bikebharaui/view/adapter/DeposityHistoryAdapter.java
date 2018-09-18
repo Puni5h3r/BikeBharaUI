@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.hp.bikebharaui.model.DepositeHistoryList;
 import com.example.hp.bikebharaui.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeposityHistoryAdapter extends RecyclerView.Adapter<DeposityHistoryAdapter.MyViewHolder> {
@@ -58,5 +59,12 @@ public class DeposityHistoryAdapter extends RecyclerView.Adapter<DeposityHistory
     @Override
     public int getItemCount() {
         return diposityHistoryLists.size();
+    }
+
+    public void updateList(List<DepositeHistoryList> newList){
+        diposityHistoryLists = new ArrayList<>();
+        diposityHistoryLists.addAll(newList);
+        notifyDataSetChanged();
+
     }
 }

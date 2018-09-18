@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
@@ -20,7 +21,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
     private Button btnUserManagement, btnRideHistory, btnDepositHistory, btnLogRide;
 
 
-    private int countBackPress = 0;
+ //   private int countBackPress = 0;
 
     public DashbordFragment() {
     }
@@ -39,8 +40,8 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
-            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+    if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+        ((AppCompatActivity) getActivity()).setTitle("Dashboard");
         btnUserManagement = view.findViewById(R.id.btnUserManagement);
         btnRideHistory = view.findViewById(R.id.btnRideHistory);
         btnDepositHistory = view.findViewById(R.id.btnDepositHistory);
@@ -117,13 +118,14 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public boolean onBackPress() {
-        countBackPress++;
-        if (countBackPress != 2) {
-            //action not popBackStack
-            return true;
-        } else {
-            countBackPress = 0;
+//        countBackPress++;
+//        Toast.makeText(getContext(),"press back again if you want to exit", Toast.LENGTH_SHORT).show();
+//        if (countBackPress != 2) {
+//            //action not popBackStack
+//            return true;
+//        } else {
+//            countBackPress = 0;
             return false;
-        }
+//        }
     }
 }

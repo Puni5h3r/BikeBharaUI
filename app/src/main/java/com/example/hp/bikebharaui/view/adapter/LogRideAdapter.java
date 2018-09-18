@@ -10,12 +10,20 @@ import android.widget.TextView;
 import com.example.hp.bikebharaui.model.LogRideList;
 import com.example.hp.bikebharaui.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LogRideAdapter extends RecyclerView.Adapter<LogRideAdapter.MyViewHolder> {
 
 
     private List<LogRideList> logRideLists;
+
+    public void updateList(List<LogRideList> newList) {
+        logRideLists = new ArrayList<>();
+        logRideLists.addAll(newList);
+        notifyDataSetChanged();
+
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, phone, date;

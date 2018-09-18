@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -28,7 +29,9 @@ import com.example.hp.bikebharaui.view.adapter.UserManagementAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManagementFragment extends BaseFragment implements IOnOptionsItemPress {
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
+public class UserManagementFragment extends BaseFragment implements IOnOptionsItemPress, IOnBackPressed {
 
     private Context mContext;
 
@@ -36,6 +39,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
     private RecyclerView recyclerView;
     private UserManagementAdapter mAdapter;
     private Toolbar toolbar;
+    private FloatingActionButton fab;
 
     public UserManagementFragment() {
     }
@@ -64,6 +68,14 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
             }
         }
 
+            fab=view.findViewById(R.id.fab_user_management);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new AddEditUserFragment());
+            }
+        });
 
 
 
@@ -130,5 +142,10 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
 
         mAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public boolean onBackPress() {
+        return true;
     }
 }

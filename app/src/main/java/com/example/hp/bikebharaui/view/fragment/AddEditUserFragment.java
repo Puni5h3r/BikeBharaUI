@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,11 +21,12 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
+import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 
 
-public class AddEditUserFragment extends BaseFragment implements IOnBackPressed {
+public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemPress,IOnBackPressed {
 
-//    private Toolbar toolbar;
+  private Toolbar toolbar;
     private EditText edtInputName, edtInputMobile, edtInputPassword;
     private TextInputLayout inputLayoutName, inputLayoutMobile, inputLayoutPassword;
     private Button btnSave;
@@ -60,6 +65,20 @@ public class AddEditUserFragment extends BaseFragment implements IOnBackPressed 
         });*/
 
 
+        AppCompatActivity activity =(AppCompatActivity) getActivity();
+        if(activity!=null){
+            toolbar=view.findViewById(R.id.toolbar);
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if(actionBar!=null){
+                actionBar.setTitle("Add User");
+                actionBar.setDisplayHomeAsUpEnabled(true);
+
+            }
+
+        }
+
+
         edtInputName.addTextChangedListener(new MyTextWatcher(edtInputName));
         edtInputMobile.addTextChangedListener(new MyTextWatcher(edtInputMobile));
         edtInputPassword.addTextChangedListener(new MyTextWatcher(edtInputPassword));
@@ -74,24 +93,24 @@ public class AddEditUserFragment extends BaseFragment implements IOnBackPressed 
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-              // getActivity().onBackPressed();
-//                onBackPress();
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//              // getActivity().onBackPressed();
+////                onBackPress();
+//
+//                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
+//               return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
-                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
-               return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onBackPress() {
-        return false;
-    }
+//    @Override
+//    public boolean onBackPress() {
+//        return false;
+//    }
 
     private void submitForm() {
 
@@ -107,9 +126,14 @@ public class AddEditUserFragment extends BaseFragment implements IOnBackPressed 
             return;
         }
 
-        Toast.makeText(getContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+        openlistdialog();
     }
 
+    private void openlistdialog() {
+        ExampleDialog openDialog = new ExampleDialog();
+        openDialog.show(getFragmentManager(),"example dialog");
+    }
 
 
     private boolean validateName() {
@@ -154,6 +178,16 @@ public class AddEditUserFragment extends BaseFragment implements IOnBackPressed 
         if (view.requestFocus()) {
            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onHomeOptionPress() {
+        return false;
+    }
+
+    @Override
+    public boolean onBackPress() {
+        return true;
     }
 
     private class MyTextWatcher implements TextWatcher {

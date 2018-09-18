@@ -6,30 +6,39 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.LogRideList;
+import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
+import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 import com.example.hp.bikebharaui.view.adapter.LogRideAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogRideFragment extends BaseFragment {
+public class LogRideFragment extends BaseFragment implements IOnOptionsItemPress,IOnBackPressed {
 
-   // private Toolbar toolbar;
+    private Toolbar toolbar;
     private FloatingActionButton fabLogRide;
     Context mContext;
 
     private List<LogRideList> logRideLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private LogRideAdapter mAdapter;
+    private EditText edtSearch;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -44,19 +53,21 @@ public class LogRideFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.log_ride_recylerView);
         mContext=getContext();
 
-        //toolbar = findViewById(R.id.toolbar_log_ride);
+       AppCompatActivity activity = (AppCompatActivity)getActivity();
+       if(activity!=null){
+           toolbar = view.findViewById(R.id.toolbar);
+           activity.setSupportActionBar(toolbar);
+           ActionBar actionBar = activity.getSupportActionBar();
+           if(actionBar!=null){
+               actionBar.setTitle("Log Ride");
+               actionBar.setDisplayHomeAsUpEnabled(true);
 
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(LogRideActivity.this,DashboardActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+           }
 
-//        toolbar.setTitle("Ride history");
+       }
 
         fabLogRide = view.findViewById(R.id.fab_log_ride);
+       edtSearch = view.findViewById(R.id.edittext_searchbox_log_ride);
 
         fabLogRide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +88,32 @@ public class LogRideFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
 
         prepareData();
+
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            String userInput = s.toString().toLowerCase();
+                List<LogRideList> newList = new ArrayList<>();
+                for(LogRideList logRideList : logRideLists){
+                    String name = logRideList.getName().toLowerCase();
+                    if(name.contains(userInput)){
+                        newList.add(logRideList);
+                    }
+
+                }
+                mAdapter.updateList(newList);
+            }
+        });
         return view;
     }
 
@@ -105,6 +142,15 @@ public class LogRideFragment extends BaseFragment {
 
     }
 
+    @Override
+    public boolean onHomeOptionPress() {
+        return false;
     }
+
+    @Override
+    public boolean onBackPress() {
+        return true;
+    }
+}
 
 

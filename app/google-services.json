@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "571235768770",
+    "firebase_url": "https://bike-bhara.firebaseio.com",
+    "project_id": "bike-bhara",
+    "storage_bucket": "bike-bhara.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571235768770:android:46bad0b4bf8f31b2",
+        "android_client_info": {
+          "package_name": "com.example.hp.bikebharaui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571235768770-nsta9mcg0d3v1j52s4id17ffbcsbh598.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hp.bikebharaui",
+            "certificate_hash": "d578c496801421aaa3891c390bee183cc8c20c15"
+          }
+        },
+        {
+          "client_id": "571235768770-e5ls7r53k1mjoletdn8p2i6p9huiko8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPp3JHIYmcn2ksYN0RGsgXNnlDqxLmBO4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571235768770-e5ls7r53k1mjoletdn8p2i6p9huiko8f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

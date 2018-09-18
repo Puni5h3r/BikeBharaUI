@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,8 +22,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
+import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 
-public class LogRideMoneyFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
+public class LogRideMoneyFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, IOnOptionsItemPress, IOnBackPressed {
 
     private Button btnSave;
     private Spinner spUserId;
@@ -29,6 +33,7 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
     private Context mContext;
     private EditText edtAmount;
     private TextInputLayout inputLayoutAmount;
+
 
     public LogRideMoneyFragment() {
 
@@ -48,16 +53,18 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
 
         mContext = getContext();
 
-//        toolbar=findViewById(R.id.toolbar_log_ride_money);
-//
-//        toolbar.setTitle("Log Ride");
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(LogRideMoneyActivity.this, DashboardActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        AppCompatActivity activity=(AppCompatActivity)getActivity();
+        if(activity!=null){
+            toolbar=view.findViewById(R.id.toolbar);
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if(actionBar!=null){
+                actionBar.setTitle("Log money");
+                actionBar.setDisplayHomeAsUpEnabled(true);
+
+            }
+
+        }
 
 
         // setting the spUserId
@@ -86,8 +93,12 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
         if (!validateAmount()) {
             return;
         }
-
-        Toast.makeText(mContext, "Thank You!", Toast.LENGTH_SHORT).show();
+        openlistdialog();
+       // Toast.makeText(mContext, "Thank You!", Toast.LENGTH_SHORT).show();
+    }
+    private void openlistdialog() {
+        ExampleDialogMoney openDialog = new ExampleDialogMoney();
+        openDialog.show(getFragmentManager(),"example dialog");
     }
 
     private boolean validateAmount() {
@@ -131,6 +142,16 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
         if (view.requestFocus()) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onHomeOptionPress() {
+        return false;
+    }
+
+    @Override
+    public boolean onBackPress() {
+        return true;
     }
 
 

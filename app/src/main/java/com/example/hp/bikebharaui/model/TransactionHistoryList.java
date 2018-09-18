@@ -6,6 +6,7 @@ public class TransactionHistoryList {
     private String timeDate;
     private String amount;
     private String depositeRide;
+    private String transactionHistoryId;
 
     public TransactionHistoryList() {
     }
@@ -63,4 +64,11 @@ public class TransactionHistoryList {
         this.depositeRide=n;
     }
 
+    public String getTransactionHistoryId() {
+        return transactionHistoryId;
+    }
+
+    public void setTransactionHistoryId(String transactionHistoryId) {
+        this.transactionHistoryId = transactionHistoryId;
+    }
 }

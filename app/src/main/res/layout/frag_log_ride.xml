@@ -12,21 +12,19 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_log_ride"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+      <include
+          android:id="@+id/toolbar"
+          layout="@layout/tool_bar"/>
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/saerchbox_log_ride"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,24 +37,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/search_box_design"
             android:hint="Search"
             android:maxLines="6"
             android:padding="8dp"
+            android:paddingTop="8dp"
+            android:textSize="15sp"
             android:textColor="@color/black"
-            android:focusable="false"/>
+            />
 
         <ImageButton
             android:id="@+id/button_searchbox_log_ride"
             android:layout_width="44dp"
-            android:layout_height="49dp"
+            android:layout_height="35dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/baseline_search_black_18dp"
+            android:background="@drawable/ic_action_search"
             android:gravity="center"
             android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
+
 
             />
 
@@ -78,9 +82,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_log_ride"
-        android:src="@drawable/ic_action_add_floating_icon"
-
-
+        android:src="@drawable/ic_action_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -89,6 +91,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        />
 
 </android.support.constraint.ConstraintLayout>

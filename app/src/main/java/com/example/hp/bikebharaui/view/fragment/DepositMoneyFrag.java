@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
+
+
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,8 +24,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
+import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 
-public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItemSelectedListener {
+public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItemSelectedListener, IOnOptionsItemPress, IOnBackPressed {
 
 
     private Button btnSave;
@@ -54,18 +60,19 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
         spUserId.setAdapter(adapter);
         spUserId.setOnItemSelectedListener(this);
 
-//        toolbar = findViewById(R.id.toolbar_deposite_money);
-//
-//        toolbar.setTitle("Deposit Money");
-//
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(DepositMoneyActivity.this,DashboardActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        if(activity!=null){
+            toolbar=(Toolbar) view.findViewById(R.id.toolbar);
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if(actionBar!=null){
+                actionBar.setTitle("Deposit Money");
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
 
+
+
+        }
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +92,15 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
         if (!validateAmount()) {
             return;
         }
+        openlistdialog();
+        //Toast.makeText(mContext, "Thank You!", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(mContext, "Thank You!", Toast.LENGTH_SHORT).show();
     }
+    private void openlistdialog() {
+        ExampleDialogMoney openDialog = new ExampleDialogMoney();
+        openDialog.show(getFragmentManager(),"example dialog");
+    }
+
 
     private boolean validateAmount() {
         if (edtDepositAmount.getText().toString().trim().isEmpty()) {
@@ -106,6 +119,16 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
         if (view.requestFocus()) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onHomeOptionPress() {
+        return false;
+    }
+
+    @Override
+    public boolean onBackPress() {
+        return true;
     }
 
     private class MyTextWatcher implements TextWatcher {
