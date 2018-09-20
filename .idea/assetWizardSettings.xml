@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="paddingPercent" value="-10" />
+                                                <entry key="paddingPercent" value="-5" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -46,7 +46,7 @@
                                     <map>
                                       <entry key="outputName" value="ic_action_delete" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="c51162" />
+                                      <entry key="themeColor" value="757575" />
                                     </map>
                                   </option>
                                 </PersistentState>

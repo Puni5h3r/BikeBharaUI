@@ -1,6 +1,7 @@
 package com.example.hp.bikebharaui.view.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -23,20 +25,39 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.model.RideHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItemSelectedListener, IOnOptionsItemPress, IOnBackPressed {
 
-
+    private ArrayList<String> userNames = new ArrayList<>();
     private Button btnSave;
     private Spinner spUserId;
     private Toolbar toolbar;
     private EditText edtDepositAmount;
     Context mContext;
     private TextInputLayout inputLayoutAmount;
+    private List<RideHistoryList> rideHistoryLists = new ArrayList<>();
+    private RideHistoryList rideHistoryList;
 
+
+    private FirebaseDatabase firebaseDatabaseInstance = FirebaseDatabase.getInstance();
+    DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
+    ArrayAdapter<String> adapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,18 +68,22 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
         btnSave = view.findViewById(R.id.button_deposit_save);
         spUserId = view.findViewById(R.id.spUserDeposity);
 
+        // setting the spUserId
+        adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_dropdown_item,userNames);
 
         inputLayoutAmount = view.findViewById(R.id.input_layout_depositamount);
         edtDepositAmount = view.findViewById(R.id.edtDepositAmount);
 
+        getData(rideHistoryRef);
 
-        // setting the spUserId
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.dummyforspinner, android.R.layout.simple_spinner_item);
-        //Specify the layout to use when the list choice appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Apply the adapter to the spUserId
-        spUserId.setAdapter(adapter);
-        spUserId.setOnItemSelectedListener(this);
+
+            //Specify the layout to use when the list choice appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //Apply the adapter to the spUserId
+            spUserId.setAdapter(adapter);
+             spUserId.setOnItemSelectedListener(this);
+
+
 
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         if(activity!=null){
@@ -88,17 +113,80 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
       return view;
     }
 
+    private void getData(DatabaseReference rideHistoryRef) {
+        rideHistoryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String checker = "Passenger";
+                userNames.clear();
+                rideHistoryLists.clear();
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    String userType = (String) data.child("user type").getValue();
+                    if(userType.equals(checker) && userType!=null) {
+                        String names = (String) data.child("name").getValue();
+                        String phnNumber = (String) data.child("phone number").getValue();
+                        String time = (String) data.child("time").getValue();
+                        String id = (String) data.child("id").getValue();
+                        userNames.add(names);
+                        RideHistoryList rideHistoryListModel = new RideHistoryList(names, phnNumber, time);
+                        rideHistoryListModel.setRideHistoryId(id);
+                        rideHistoryLists.add(rideHistoryListModel);
+
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void submitForm() {
         if (!validateAmount()) {
             return;
         }
-        openlistdialog();
-        //Toast.makeText(mContext, "Thank You!", Toast.LENGTH_SHORT).show();
-
+       if(rideHistoryList==null){
+            Toast.makeText(getContext(),"you have selected anything from the list",Toast.LENGTH_SHORT).show();
+       }
+       btnSaved();
     }
-    private void openlistdialog() {
-        ExampleDialogMoney openDialog = new ExampleDialogMoney();
-        openDialog.show(getFragmentManager(),"example dialog");
+
+    private void btnSaved() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        alertDialogBuilder
+                .setTitle("Are you sure you want to save this?")
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String name = rideHistoryList.getName();
+                        String phoneNumber = rideHistoryList.getPhoneNumber();
+                        String userId = rideHistoryList.getRideHistoryId();
+                        String currentDateTimeString = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"
+                                , Locale.ENGLISH).format(Calendar.getInstance().getTime());
+                        String amount = edtDepositAmount.getText().toString();
+                        String transferType = "Deposit";
+                        InsertData insertData = new InsertData();
+                        insertData.depositMoneyInsertData(rideHistoryRef, name, phoneNumber,currentDateTimeString,userId,amount,transferType);
+                        loadFragment(new DepositMoneyFrag());
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 
 
@@ -159,19 +247,11 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position==0){
-            Toast.makeText(mContext,"please select something from the list",Toast.LENGTH_LONG).show();
 
-        }
-        else {
-            String j = parent.getItemAtPosition(position).toString();
-            Toast.makeText(mContext,j+" selected",Toast.LENGTH_LONG).show();
+            rideHistoryList=rideHistoryLists.get(position);
+            Toast.makeText(mContext,rideHistoryList.getName()+" selected",Toast.LENGTH_LONG).show();
 
-        }
-
-
-
-    }
+            }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

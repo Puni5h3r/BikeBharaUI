@@ -3,16 +3,15 @@ package com.example.hp.bikebharaui.model;
 public class UserManagementList {
     private String name;
     private String phoneNumber;
-    private String transactionHistory;
     private String userManagementID;
 
     public UserManagementList() {
     }
 
-    public UserManagementList(String name, String phoneNumber, String transactionHistory) {
+    public UserManagementList(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.transactionHistory = transactionHistory;
+       // this.transactionHistory = transactionHistory;
 
     }
 
@@ -36,13 +35,13 @@ public class UserManagementList {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getTransactionHistory() {
-        return transactionHistory;
-    }
-
-    public void setTransactionHistory(String transactionHistory) {
-        this.transactionHistory = transactionHistory;
-    }
+//    public String getTransactionHistory() {
+//        return transactionHistory;
+//    }
+//
+//    public void setTransactionHistory(String transactionHistory) {
+//        this.transactionHistory = transactionHistory;
+//    }
 
 
     public String getUserManagementListID() {

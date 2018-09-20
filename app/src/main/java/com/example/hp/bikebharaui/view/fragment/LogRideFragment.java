@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,15 @@ import android.widget.EditText;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.model.LogRideList;
+import com.example.hp.bikebharaui.model.TransactionHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 import com.example.hp.bikebharaui.view.adapter.LogRideAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +46,7 @@ public class LogRideFragment extends BaseFragment implements IOnOptionsItemPress
     private RecyclerView recyclerView;
     private LogRideAdapter mAdapter;
     private EditText edtSearch;
+    private FirebaseDatabase firebaseDatabaseInstance;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -87,7 +95,11 @@ public class LogRideFragment extends BaseFragment implements IOnOptionsItemPress
         recyclerView.addItemDecoration(new MyDividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL, 16));
         recyclerView.setAdapter(mAdapter);
 
-        prepareData();
+        firebaseDatabaseInstance = FirebaseDatabase.getInstance();
+        DatabaseReference dbLogRideReference = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
+        getData(dbLogRideReference);
+
+       // prepareData();
 
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,29 +129,35 @@ public class LogRideFragment extends BaseFragment implements IOnOptionsItemPress
         return view;
     }
 
-    private void prepareData() {
-        LogRideList u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
+    private void getData(DatabaseReference dbLogRideReference) {
 
+        dbLogRideReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                logRideLists.clear();
+                for(DataSnapshot data:dataSnapshot.getChildren()){
+                    String checker = (String) data.child("user type").getValue();
+                    if (checker.equals("Passenger") && checker!=null){
+                    String name = (String) data.child("name").getValue();
+                    String phnNumber = (String) data.child("phone number").getValue();
+                    String time = (String) data.child("time").getValue();
+                        String id = (String) data.child("id").getValue();
+                    LogRideList logRideListListModel = new LogRideList(name,phnNumber,time);
+                    logRideListListModel.setLogRideId(id);
+                    logRideLists.add(logRideListListModel);
+                    Log.e("TAG", "onDataChange: "+data+"\t"+phnNumber+" "+time+"\t"+id+"\t");
+                }
+                }
 
+                mAdapter.notifyDataSetChanged();
+                Log.e("TAG", "onDataChange: "+dataSnapshot);
+            }
 
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-        u = new LogRideList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-        logRideLists.add(u);
-
-        mAdapter.notifyDataSetChanged();
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("TAG", "onDataChange: "+databaseError);
+            }
+        });
     }
 
     @Override

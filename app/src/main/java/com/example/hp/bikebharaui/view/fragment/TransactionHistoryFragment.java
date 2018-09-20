@@ -80,15 +80,6 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
             }
         }
 
-//        toolbar = findViewById(R.id.toolbar_transaction_history);
-//        toolbar.setTitle("Transaction History");
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//             /*   Intent intent = new Intent(TransactionHistoryActivity.this,UserManagementActivity.class);
-//                startActivity(intent);*/
-//            }
-//        });
 
 
         mAdapter = new TransactionHistoryAdapter(transactionHistoryLists);
@@ -100,10 +91,9 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
 
 
         firebaseDatabaseInstance = FirebaseDatabase.getInstance();
-        DatabaseReference dbTranHistReference = firebaseDatabaseInstance.getReference().child("DB").child("Transaction History");
+        DatabaseReference dbTranHistReference = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
         getData(dbTranHistReference);
 
-        prepareData(dbTranHistReference);
 
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -137,20 +127,22 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
     dbTranHistReference.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for(DataSnapshot data:dataSnapshot.getChildren()){
-                String name = (String) data.child("name").getValue();
-                String phnNumber = (String) data.child("phone number").getValue();
-                String time = (String) data.child("time").getValue();
-                Long k = (Long) data.child("id").getValue();
-                String id = Long.toString(k);
-                String rideORDEPOSIT = (String) data.child("rideORdeposit").getValue();
-              //  Long amnt = (Long) data.child("amount").getValue();
-                String amount = (String) data.child("amount").getValue();
-                TransactionHistoryList transactionHistoryListModel = new TransactionHistoryList(name,phnNumber,time,amount,rideORDEPOSIT);
-                transactionHistoryListModel.setTransactionHistoryId(id);
-                transactionHistoryLists.add(transactionHistoryListModel);
-                Log.e("TAG", "onDataChange: "+name+"\t"+phnNumber+" "+time+"\t"+id+"\t"+amount+" "+rideORDEPOSIT);
+            transactionHistoryLists.clear();
+            for(DataSnapshot data:dataSnapshot.getChildren()) {
+                String checker = (String) data.child("user type").getValue();
+                if (checker!=null&&checker.equals("Passenger")) {
+                    String name = (String) data.child("name").getValue();
+                    String phnNumber = (String) data.child("phone number").getValue();
+                    String time = (String) data.child("time").getValue();
+                    String id = (String) data.child("id").getValue();
+                    String rideORDEPOSIT = (String) data.child("transfer type").getValue();
+                    String amount = (String) data.child("amount").getValue();
+                    TransactionHistoryList transactionHistoryListModel = new TransactionHistoryList(name, phnNumber, time, amount, rideORDEPOSIT);
+                    transactionHistoryListModel.setTransactionHistoryId(id);
+                    transactionHistoryLists.add(transactionHistoryListModel);
+                    Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id + "\t" + amount + " " + rideORDEPOSIT);
                 }
+            }
 
                 mAdapter.notifyDataSetChanged();
             Log.e("TAG", "onDataChange: "+dataSnapshot);
@@ -169,32 +161,6 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
         return false;
     }
 
-    private void prepareData(DatabaseReference dbTranHistReference) {
-        InsertData insertData = new InsertData();
-        insertData.transactionhistoryInsertData(dbTranHistReference,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "deposite");
-        insertData.transactionhistoryInsertData(dbTranHistReference,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
-        insertData.transactionhistoryInsertData(dbTranHistReference,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
-
-
-
-//        TransactionHistoryList t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "deposite");
-//        transactionHistoryLists.add(t);
-//
-//        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
-//        transactionHistoryLists.add(t);
-//
-//        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
-//        transactionHistoryLists.add(t);
-//
-//        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
-//        transactionHistoryLists.add(t);
-//
-//        t = new TransactionHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk", "ride");
-//        transactionHistoryLists.add(t);
-//
-//        mAdapter.notifyDataSetChanged();
-
-   }
 
     @Override
     public boolean onBackPress() {

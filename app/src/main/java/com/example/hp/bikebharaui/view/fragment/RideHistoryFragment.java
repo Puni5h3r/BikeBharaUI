@@ -103,8 +103,6 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
 
         getData(rideHistoryRef);
 
-        prepareData(rideHistoryRef);
-
         edtSearchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,17 +136,20 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data:dataSnapshot.getChildren()){
-                    String name = (String) data.child("name").getValue();
-                    String phnNumber = (String) data.child("phone number").getValue();
-                    String time = (String) data.child("time").getValue();
-                    Long k = (Long) data.child("id").getValue();
-                    String id = Long.toString(k);
-                    RideHistoryList rideHistoryListModel = new RideHistoryList(name,phnNumber,time);
-                    rideHistoryListModel.setRideHistoryId(id);
-                    rideHistoryLists.add(rideHistoryListModel);
-                    Log.e("TAG", "onDataChange: "+name+"\t"+phnNumber+" "+time+"\t"+id);
+                rideHistoryLists.clear();
+                for(DataSnapshot data:dataSnapshot.getChildren()) {
+                    String checker = (String) data.child("user type").getValue();
+                    if (checker!=null&&checker.equals("Passenger")) {
+                        String name = (String) data.child("name").getValue();
+                        String phnNumber = (String) data.child("phone number").getValue();
+                        String time = (String) data.child("time").getValue();
+                        String id = (String) data.child("id").getValue();
+                        RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
+                        rideHistoryListModel.setRideHistoryId(id);
+                        rideHistoryLists.add(rideHistoryListModel);
+                        Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
 
+                    }
                 }
 
                 mAdapter.notifyDataSetChanged();
@@ -165,12 +166,6 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
 
     }
 
-    private void prepareData(DatabaseReference rideHistoryRef) {
-         InsertData insertData = new InsertData();
-         insertData.ridehistoryInsertData(rideHistoryRef,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-         insertData.ridehistoryInsertData(rideHistoryRef,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-         insertData.ridehistoryInsertData(rideHistoryRef,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM");
-         }
 
     @Override
     public boolean onHomeOptionPress() {

@@ -1,15 +1,18 @@
 package com.example.hp.bikebharaui.view.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +22,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemPress,IOnBackPressed {
@@ -30,6 +39,7 @@ public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemP
     private EditText edtInputName, edtInputMobile, edtInputPassword;
     private TextInputLayout inputLayoutName, inputLayoutMobile, inputLayoutPassword;
     private Button btnSave;
+    private FirebaseDatabase firebaseDatabaseInstance;
 
     public AddEditUserFragment() {
     }
@@ -53,18 +63,8 @@ public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemP
         edtInputPassword = (EditText) view.findViewById(R.id.edtPassword);
         btnSave = (Button) view.findViewById(R.id.btnSave);
 
-    /*    toolbar = findViewById(R.id.toolbar_add_edit_user);
-
-        toolbar.setTitle("User Management");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddEditUserActivity.this,DashboardActivity.class);
-                startActivity(intent);
-            }
-        });*/
-
-
+        firebaseDatabaseInstance = FirebaseDatabase.getInstance();
+        final DatabaseReference userHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("User");
         AppCompatActivity activity =(AppCompatActivity) getActivity();
         if(activity!=null){
             toolbar=view.findViewById(R.id.toolbar);
@@ -86,33 +86,14 @@ public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemP
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitForm();
+                submitForm(userHistoryRef);
             }
         });
         return view;
     }
 
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case android.R.id.home:
-//              // getActivity().onBackPressed();
-////                onBackPress();
-//
-//                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
-//               return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-//    @Override
-//    public boolean onBackPress() {
-//        return false;
-//    }
-
-    private void submitForm() {
+    private void submitForm(final DatabaseReference userHistoryRef) {
 
         if (!validateName()) {
             return;
@@ -127,13 +108,38 @@ public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemP
         }
 
        // Toast.makeText(getContext(), "Thank You!", Toast.LENGTH_SHORT).show();
-        openlistdialog();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+        alertDialogBuilder
+                .setTitle("Are you sure you want to save this?")
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String passwordInput = edtInputPassword.getText().toString();
+
+                            String name = edtInputName.getText().toString();
+                            String phoneNumber = edtInputMobile.getText().toString();
+                            InsertData insertData = new InsertData();
+                            insertData.addUser(userHistoryRef, name, phoneNumber,passwordInput);
+                        }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
     }
 
-    private void openlistdialog() {
-        ExampleDialog openDialog = new ExampleDialog();
-        openDialog.show(getFragmentManager(),"example dialog");
-    }
+
 
 
     private boolean validateName() {

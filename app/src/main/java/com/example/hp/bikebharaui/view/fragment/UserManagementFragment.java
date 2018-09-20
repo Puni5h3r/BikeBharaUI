@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,11 @@ import com.example.hp.bikebharaui.model.UserManagementList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 import com.example.hp.bikebharaui.view.adapter.UserManagementAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +46,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
     private UserManagementAdapter mAdapter;
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private FirebaseDatabase firebaseDatabaseInstance;
 
     public UserManagementFragment() {
     }
@@ -84,8 +91,6 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
         mAdapter = new UserManagementAdapter(userManagementListArrayList, new UserManagementAdapter.TransactionHistoryClickListener() {
             @Override
             public void onClickListener(int position) {
-//                Intent intent = new Intent(mContext, TransactionHistoryActivity.class);
-//                mContext.startActivity(intent);
 
                 loadFragment(new TransactionHistoryFragment());
             }
@@ -104,44 +109,47 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
         recyclerView.addItemDecoration(new MyDividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL, 16));
         recyclerView.setAdapter(mAdapter);
 
-        prepareData();
+        firebaseDatabaseInstance = FirebaseDatabase.getInstance();
+        DatabaseReference dbUserManagementRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
+        getData(dbUserManagementRef);
+
         return view;
     }
 
+    private void getData(DatabaseReference dbUserManagementRef) {
+        dbUserManagementRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userManagementListArrayList.clear();
+                for(DataSnapshot data:dataSnapshot.getChildren()) {
+                    String checker = (String)data.child("user type").getValue();
+                    if (checker!=null&&checker.equals("Passenger")) {
+                        String name = (String) data.child("name").getValue();
+                        String phnNumber = (String) data.child("phone number").getValue();
+                        String time = (String) data.child("time").getValue();
+                        String id = (String) data.child("id").getValue();
+                        UserManagementList userManagementList = new UserManagementList(name, phnNumber);
+                        userManagementList.setUserManagementListID(id);
+                        userManagementListArrayList.add(userManagementList);
+                        Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
+                    }
+                }
+
+                mAdapter.notifyDataSetChanged();
+                Log.e("TAG", "onDataChange: "+dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("TAG", "onDataChange: "+databaseError);
+            }
+        });
+    }
 
 
     @Override
     public boolean onHomeOptionPress() {
         return false;
-    }
-
-    private void prepareData() {
-
-        UserManagementList u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-        u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-        u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-
-        u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-
-        u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-        u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-        u = new UserManagementList("Asif Ahmed", "01675599357", "xyz");
-        userManagementListArrayList.add(u);
-
-        mAdapter.notifyDataSetChanged();
-
     }
 
     @Override

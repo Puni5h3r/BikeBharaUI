@@ -4,6 +4,7 @@ public class LogRideList {
     private String name;
     private String phoneNumber;
     private String timeDate;
+    private String logRideId;
 
     public LogRideList() {
     }
@@ -42,4 +43,11 @@ public class LogRideList {
         this.timeDate=n;
     }
 
+    public String getLogRideId() {
+        return logRideId;
+    }
+
+    public void setLogRideId(String logRideId) {
+        this.logRideId = logRideId;
+    }
 }

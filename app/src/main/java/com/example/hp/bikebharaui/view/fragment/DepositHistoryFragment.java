@@ -104,12 +104,9 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
 
 
         firebaseDatabaseInstance = FirebaseDatabase.getInstance();
-        DatabaseReference dbDepositHistory = firebaseDatabaseInstance.getReference().child("DB").child("Deposit History");
+        DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
 
-        getData(dbDepositHistory);
-
-        prepareData(dbDepositHistory);
-
+        getData(rideHistoryRef);
 
         edtSearchbox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -136,10 +133,6 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
                 mAdapter.updateList(newList);
             }
         });
-
-
-
-
         return view;
     }
 
@@ -147,18 +140,21 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
         dbDepositHistory.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data:dataSnapshot.getChildren()){
-                    String name = (String) data.child("name").getValue();
-                    String phnNumber = (String) data.child("phone number").getValue();
-                    String time = (String) data.child("time").getValue();
-                    Long i = (Long) data.child("id").getValue();
-                    String id = Long.toString(i);
-                   // Long amt = (Long) data.child("amount").getValue();
-                    String amount = (String) data.child("amount").getValue();
-                    DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name,phnNumber,time,amount);
-                    depositeHistoryModel.setDepositHisotryid(id);
-                    depositeHistoryLists.add(depositeHistoryModel);
+                depositeHistoryLists.clear();
+                for(DataSnapshot data:dataSnapshot.getChildren()) {
+                    String checker = (String) data.child("user type").getValue();
+                       if (checker!=null && checker.equals("Passenger")) {
+                        String name = (String) data.child("name").getValue();
+                        String phnNumber = (String) data.child("phone number").getValue();
+                        String time = (String) data.child("time").getValue();
+                        String id = (String) data.child("id").getValue();
+                        // Long amt = (Long) data.child("amount").getValue();
+                        String amount = (String) data.child("amount").getValue();
+                        DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name, phnNumber, time, amount);
+                        depositeHistoryModel.setDepositHisotryid(id);
+                        depositeHistoryLists.add(depositeHistoryModel);
 
+                    }
                 }
 
                 mAdapter.notifyDataSetChanged();
@@ -171,35 +167,6 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
             }
         });
 
-    }
-
-    private void prepareData(DatabaseReference dbDepositHistory) {
-        InsertData insertData = new InsertData();
-        insertData.deposithistoryInsertData(dbDepositHistory,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-        insertData.deposithistoryInsertData(dbDepositHistory,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-        insertData.deposithistoryInsertData(dbDepositHistory,"Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-
-
-
-
-//        DepositeHistoryList u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//        u = new DepositeHistoryList("Asif Ahmed", "01675599357", "19 March 2018 10:30 AM", "500 tk");
-//        depositeHistoryLists.add(u);
-//
-//        mAdapter.notifyDataSetChanged();
     }
 
     @Override

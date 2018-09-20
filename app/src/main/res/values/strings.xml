@@ -8,13 +8,6 @@
     <string name="err_msg_phonenumber">Enter the Mobile No</string>
     <string name="err_msg_amount">Enter the Amount</string>
 
-    <string-array name="dummyforspinner">
-        <item>Select</item>
-        <item>"user1"</item>
-        <item>user2</item>
-        <item>user3</item>
 
-
-    </string-array>
 
 </resources>
