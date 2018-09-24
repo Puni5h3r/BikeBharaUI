@@ -24,6 +24,7 @@ import android.widget.EditText;
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.model.RideHistoryList;
 import com.example.hp.bikebharaui.model.TransactionHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
@@ -129,18 +130,23 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             transactionHistoryLists.clear();
             for(DataSnapshot data:dataSnapshot.getChildren()) {
-                String checker = (String) data.child("user type").getValue();
-                if (checker!=null&&checker.equals("Passenger")) {
-                    String name = (String) data.child("name").getValue();
-                    String phnNumber = (String) data.child("phone number").getValue();
-                    String time = (String) data.child("time").getValue();
-                    String id = (String) data.child("id").getValue();
-                    String rideORDEPOSIT = (String) data.child("transfer type").getValue();
-                    String amount = (String) data.child("amount").getValue();
-                    TransactionHistoryList transactionHistoryListModel = new TransactionHistoryList(name, phnNumber, time, amount, rideORDEPOSIT);
-                    transactionHistoryListModel.setTransactionHistoryId(id);
-                    transactionHistoryLists.add(transactionHistoryListModel);
-                    Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id + "\t" + amount + " " + rideORDEPOSIT);
+                if (!Session.getUserType()) {
+                    String idChecker = (String) data.child("id").getValue();
+                    String checker = (String) data.child("user type").getValue();
+                    if (checker != null && idChecker!=null) {
+                        if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
+                            String name = (String) data.child("name").getValue();
+                            String phnNumber = (String) data.child("phone number").getValue();
+                            String time = (String) data.child("time").getValue();
+                            String id = (String) data.child("id").getValue();
+                            String rideORDEPOSIT = (String) data.child("transfer type").getValue();
+                            String amount = (String) data.child("amount").getValue();
+                            TransactionHistoryList transactionHistoryListModel = new TransactionHistoryList(name, phnNumber, time, amount, rideORDEPOSIT);
+                            transactionHistoryListModel.setTransactionHistoryId(id);
+                            transactionHistoryLists.add(transactionHistoryListModel);
+                            Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id + "\t" + amount + " " + rideORDEPOSIT);
+                        }
+                    }
                 }
             }
 

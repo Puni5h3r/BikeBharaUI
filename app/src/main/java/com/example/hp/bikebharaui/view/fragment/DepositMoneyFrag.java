@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.model.RideHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
@@ -56,7 +57,7 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
 
 
     private FirebaseDatabase firebaseDatabaseInstance = FirebaseDatabase.getInstance();
-    DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
+
     ArrayAdapter<String> adapter;
     @Nullable
     @Override
@@ -73,9 +74,22 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
 
         inputLayoutAmount = view.findViewById(R.id.input_layout_depositamount);
         edtDepositAmount = view.findViewById(R.id.edtDepositAmount);
-
-        getData(rideHistoryRef);
-
+        DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("User");
+        boolean Passenger = true;
+        if(Session.getUserType()==Passenger){
+            String name = Session.getName();
+            String id = Session.getId();
+            String phnNumber = Session.getPhnNumber();
+            if (name!=null && id!=null && phnNumber!=null) {
+                rideHistoryList = new RideHistoryList();
+                userNames.add(name);
+                rideHistoryList.setName(name);
+                rideHistoryList.setRideHistoryId(id);
+                rideHistoryList.setPhoneNumber(phnNumber);
+            }
+        }else {
+            getData(rideHistoryRef);
+        }
 
             //Specify the layout to use when the list choice appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -122,13 +136,12 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
                 rideHistoryLists.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     String userType = (String) data.child("user type").getValue();
-                    if(userType.equals(checker) && userType!=null) {
-                        String names = (String) data.child("name").getValue();
+                    if( userType!=null && userType.equals(checker)) {
+                        String names = (String) data.child("user name").getValue();
                         String phnNumber = (String) data.child("phone number").getValue();
-                        String time = (String) data.child("time").getValue();
                         String id = (String) data.child("id").getValue();
                         userNames.add(names);
-                        RideHistoryList rideHistoryListModel = new RideHistoryList(names, phnNumber, time);
+                        RideHistoryList rideHistoryListModel = new RideHistoryList(names, phnNumber);
                         rideHistoryListModel.setRideHistoryId(id);
                         rideHistoryLists.add(rideHistoryListModel);
 
@@ -169,9 +182,10 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
                                 , Locale.ENGLISH).format(Calendar.getInstance().getTime());
                         String amount = edtDepositAmount.getText().toString();
                         String transferType = "Deposit";
+                        DatabaseReference rideHistoryReff = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
                         InsertData insertData = new InsertData();
-                        insertData.depositMoneyInsertData(rideHistoryRef, name, phoneNumber,currentDateTimeString,userId,amount,transferType);
-                        loadFragment(new DepositMoneyFrag());
+                        insertData.depositMoneyInsertData(rideHistoryReff, name, phoneNumber,currentDateTimeString,userId,amount,transferType);
+                        loadFragment(new DepositHistoryFragment());
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -247,10 +261,11 @@ public class DepositMoneyFrag extends BaseFragment implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            rideHistoryList=rideHistoryLists.get(position);
-            Toast.makeText(mContext,rideHistoryList.getName()+" selected",Toast.LENGTH_LONG).show();
-
+            if(Session.getUserType()==true){}
+            else {
+                rideHistoryList = rideHistoryLists.get(position);
+                Toast.makeText(mContext, rideHistoryList.getName() + " selected", Toast.LENGTH_LONG).show();
+            }
             }
 
     @Override

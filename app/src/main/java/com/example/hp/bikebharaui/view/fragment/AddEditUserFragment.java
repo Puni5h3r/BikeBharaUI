@@ -119,8 +119,10 @@ public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemP
 
                             String name = edtInputName.getText().toString();
                             String phoneNumber = edtInputMobile.getText().toString();
+                            String keyValue = phoneNumber;
                             InsertData insertData = new InsertData();
-                            insertData.addUser(userHistoryRef, name, phoneNumber,passwordInput);
+                            insertData.addUser(userHistoryRef, passwordInput,name, phoneNumber,keyValue);
+                            loadFragment(new UserManagementFragment());
                         }
                 })
                 .setNegativeButton("Cancel",

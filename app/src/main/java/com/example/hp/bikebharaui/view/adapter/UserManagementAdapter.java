@@ -23,23 +23,19 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
         public void onClickListener(int position);
     }
 
-    public interface NameClickListener{
-        public void onClickListener(int position);
-    }
 
     TransactionHistoryClickListener mClickListener;
-    NameClickListener nameClickListener;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name, phone, transactionhistory;
 
         private WeakReference<TransactionHistoryClickListener> mReference;
-        private WeakReference<NameClickListener> nameReference;
+
 
         public MyViewHolder(View view) {
             super(view);
             mReference= new WeakReference<TransactionHistoryClickListener>(mClickListener);
-            nameReference = new WeakReference<NameClickListener>(nameClickListener);
             name = (TextView) view.findViewById(R.id.textView_name);
             phone = (TextView) view.findViewById(R.id.textView_phone);
             transactionhistory = (TextView) view.findViewById(R.id.trancationhistory_TV);
@@ -48,24 +44,18 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
                 @Override
                 public void onClick(View view) {
                     mReference.get().onClickListener(getAdapterPosition());
+
                 }
             });
 
-            name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    nameReference.get().onClickListener(getAdapterPosition());
-                }
-            });
 
         }
     }
 
 
-    public UserManagementAdapter(List<UserManagementList> userManagementList,TransactionHistoryClickListener mClickListener, NameClickListener nameClickListener ) {
+    public UserManagementAdapter(List<UserManagementList> userManagementList,TransactionHistoryClickListener mClickListener ) {
         this.userManagementList = userManagementList;
         this.mClickListener = mClickListener;
-        this.nameClickListener=nameClickListener;
     }
 
     @Override

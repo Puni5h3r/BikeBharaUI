@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.model.RideHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
@@ -51,7 +52,7 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
     private FirebaseDatabase firebaseDatabaseInstance = FirebaseDatabase.getInstance();
     private List<RideHistoryList> rideHistoryLists = new ArrayList<>();
     private RideHistoryList rideHistoryList;
-    DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
+
     ArrayAdapter<String> adapter;
     ArrayList<String> userNames = new ArrayList<>();
     public LogRideMoneyFragment() {
@@ -71,7 +72,22 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
         inputLayoutAmount = view.findViewById(R.id.input_layout_moneyamount);
         adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_dropdown_item,userNames);
         mContext = getContext();
-        getData(rideHistoryRef);
+        DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("User");
+        boolean Passenger = true;
+        if(Session.getUserType()==Passenger){
+            String name = Session.getName();
+            String id = Session.getId();
+            String phnNumber = Session.getPhnNumber();
+            if (name!=null && id!=null && phnNumber!=null) {
+                rideHistoryList = new RideHistoryList();
+                userNames.add(name);
+                rideHistoryList.setName(name);
+                rideHistoryList.setRideHistoryId(id);
+                rideHistoryList.setPhoneNumber(phnNumber);
+            }
+        }else {
+            getData(rideHistoryRef);
+        }
 
         AppCompatActivity activity=(AppCompatActivity)getActivity();
         if(activity!=null){
@@ -117,8 +133,8 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
                 rideHistoryLists.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     String userType = (String) data.child("user type").getValue();
-                    if(userType.equals(checker)&& userType!=null) {
-                        String names = (String) data.child("name").getValue();
+                    if(userType!=null && userType.equals(checker)) {
+                        String names = (String) data.child("user name").getValue();
                         String phnNumber = (String) data.child("phone number").getValue();
                         String time = (String) data.child("time").getValue();
                         String id = (String) data.child("id").getValue();
@@ -167,6 +183,7 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
                         String amount = edtAmount.getText().toString();
                         String transferType = "Ride";
                         InsertData insertData = new InsertData();
+                        DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
                         insertData.depositMoneyInsertData(rideHistoryRef, name, phoneNumber,currentDateTimeString,userId,amount,transferType);
                         loadFragment(new LogRideFragment());
                     }
@@ -205,8 +222,11 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        rideHistoryList=rideHistoryLists.get(position);
-        Toast.makeText(mContext,rideHistoryList.getName()+" selected",Toast.LENGTH_LONG).show();
+        if(Session.getUserType()==true){}
+        else {
+            rideHistoryList = rideHistoryLists.get(position);
+            Toast.makeText(mContext, rideHistoryList.getName() + " selected", Toast.LENGTH_LONG).show();
+        }
 
     }
 

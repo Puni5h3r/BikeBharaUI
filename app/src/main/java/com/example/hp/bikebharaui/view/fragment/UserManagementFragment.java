@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.model.UserManagementList;
 
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
@@ -91,18 +92,23 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
         mAdapter = new UserManagementAdapter(userManagementListArrayList, new UserManagementAdapter.TransactionHistoryClickListener() {
             @Override
             public void onClickListener(int position) {
-
+                UserManagementList userManagementList = new UserManagementList();
+                userManagementList = userManagementListArrayList.get(position);
+              Session.setName(userManagementList.getName());
+              Session.setId(userManagementList.getUserManagementListID());
+                Session.setPhnNumber( userManagementList.getPhoneNumber());
                 loadFragment(new TransactionHistoryFragment());
             }
-        }, new UserManagementAdapter.NameClickListener() {
-            @Override
-            public void onClickListener(int position) {
-             /*   Intent intent = new Intent(mContext,AddEditUserActivity.class);
-                mContext.startActivity(intent);*/
-
-                loadFragment(new AddEditUserFragment());
-            }
         });
+//        , new UserManagementAdapter.NameClickListener() {
+//            @Override
+//            public void onClickListener(int position) {
+//             /*   Intent intent = new Intent(mContext,AddEditUserActivity.class);
+//                mContext.startActivity(intent);*/
+//
+//                loadFragment(new AddEditUserFragment());
+//            }
+//        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -110,7 +116,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
         recyclerView.setAdapter(mAdapter);
 
         firebaseDatabaseInstance = FirebaseDatabase.getInstance();
-        DatabaseReference dbUserManagementRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
+        DatabaseReference dbUserManagementRef = firebaseDatabaseInstance.getReference().child("DB").child("User");
         getData(dbUserManagementRef);
 
         return view;
@@ -124,7 +130,7 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
                 for(DataSnapshot data:dataSnapshot.getChildren()) {
                     String checker = (String)data.child("user type").getValue();
                     if (checker!=null&&checker.equals("Passenger")) {
-                        String name = (String) data.child("name").getValue();
+                        String name = (String) data.child("user name").getValue();
                         String phnNumber = (String) data.child("phone number").getValue();
                         String time = (String) data.child("time").getValue();
                         String id = (String) data.child("id").getValue();

@@ -23,6 +23,8 @@ import android.widget.EditText;
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
+import com.example.hp.bikebharaui.model.DepositeHistoryList;
 import com.example.hp.bikebharaui.model.RideHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
@@ -138,17 +140,36 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 rideHistoryLists.clear();
                 for(DataSnapshot data:dataSnapshot.getChildren()) {
-                    String checker = (String) data.child("user type").getValue();
-                    if (checker!=null&&checker.equals("Passenger")) {
-                        String name = (String) data.child("name").getValue();
-                        String phnNumber = (String) data.child("phone number").getValue();
-                        String time = (String) data.child("time").getValue();
-                        String id = (String) data.child("id").getValue();
-                        RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
-                        rideHistoryListModel.setRideHistoryId(id);
-                        rideHistoryLists.add(rideHistoryListModel);
-                        Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
+                    if (Session.getUserType()) {
+                        String checker = (String) data.child("user type").getValue();
+                        String idChecker = (String) data.child("id").getValue();
+                        if (checker != null && idChecker!=null) {
+                            if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
+                                String name = (String) data.child("name").getValue();
+                                String phnNumber = (String) data.child("phone number").getValue();
+                                String time = (String) data.child("time").getValue();
+                                String id = (String) data.child("id").getValue();
+                                // Long amt = (Long) data.child("amount").getValue();
+                                String amount = (String) data.child("amount").getValue();
+                                RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
+                                rideHistoryListModel.setRideHistoryId(id);
+                                rideHistoryLists.add(rideHistoryListModel);;
+                            }
+                        }
+                    }
+                    else{
+                        String checker = (String) data.child("user type").getValue();
+                        if (checker != null && checker.equals("Passenger")) {
+                            String name = (String) data.child("name").getValue();
+                            String phnNumber = (String) data.child("phone number").getValue();
+                            String time = (String) data.child("time").getValue();
+                            String id = (String) data.child("id").getValue();
+                            RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
+                            rideHistoryListModel.setRideHistoryId(id);
+                            rideHistoryLists.add(rideHistoryListModel);
+                            Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
 
+                        }
                     }
                 }
 

@@ -25,6 +25,7 @@ import android.widget.EditText;
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.model.DepositeHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
@@ -142,21 +143,37 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 depositeHistoryLists.clear();
                 for(DataSnapshot data:dataSnapshot.getChildren()) {
-                    String checker = (String) data.child("user type").getValue();
-                       if (checker!=null && checker.equals("Passenger")) {
-                        String name = (String) data.child("name").getValue();
-                        String phnNumber = (String) data.child("phone number").getValue();
-                        String time = (String) data.child("time").getValue();
-                        String id = (String) data.child("id").getValue();
-                        // Long amt = (Long) data.child("amount").getValue();
-                        String amount = (String) data.child("amount").getValue();
-                        DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name, phnNumber, time, amount);
-                        depositeHistoryModel.setDepositHisotryid(id);
-                        depositeHistoryLists.add(depositeHistoryModel);
-
+                    if (Session.getUserType()==true) {
+                        String checker = (String) data.child("user type").getValue();
+                        String idChecker = (String) data.child("id").getValue();
+                        if (checker != null && idChecker!=null) {
+                            if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
+                                String name = (String) data.child("name").getValue();
+                                String phnNumber = (String) data.child("phone number").getValue();
+                                String time = (String) data.child("time").getValue();
+                                String id = (String) data.child("id").getValue();
+                                // Long amt = (Long) data.child("amount").getValue();
+                                String amount = (String) data.child("amount").getValue();
+                                DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name, phnNumber, time, amount);
+                                depositeHistoryModel.setDepositHisotryid(id);
+                                depositeHistoryLists.add(depositeHistoryModel);
+                            }
+                        }
+                    } else {
+                        String checker = (String) data.child("user type").getValue();
+                        if (checker != null && checker.equals("Passenger")) {
+                            String name = (String) data.child("name").getValue();
+                            String phnNumber = (String) data.child("phone number").getValue();
+                            String time = (String) data.child("time").getValue();
+                            String id = (String) data.child("id").getValue();
+                            // Long amt = (Long) data.child("amount").getValue();
+                            String amount = (String) data.child("amount").getValue();
+                            DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name, phnNumber, time, amount);
+                            depositeHistoryModel.setDepositHisotryid(id);
+                            depositeHistoryLists.add(depositeHistoryModel);
+                            }
                     }
                 }
-
                 mAdapter.notifyDataSetChanged();
                 Log.e("TAG","onDataChange: "+dataSnapshot);
             }

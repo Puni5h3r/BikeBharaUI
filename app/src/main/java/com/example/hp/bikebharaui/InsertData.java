@@ -14,8 +14,9 @@ public class InsertData {
         UUID uuid = UUID.randomUUID();
         String randomUUIDString = uuid.toString();
 
-            //String k = Integer.toString(insertRideCount);
-           String k="Ride History User"+randomUUIDString;
+
+           String k=phnNumber;
+           k=k+randomUUIDString;
             databaseReference.child(k).child("name").setValue(name);
             databaseReference.child(k).child("phone number").setValue(phnNumber);
             databaseReference.child(k).child("time").setValue(time);
@@ -69,22 +70,22 @@ public class InsertData {
 //    }
 
 
-    public void addUser(DatabaseReference databaseReference, String password, String name, String phoneNumber) {
+    public void addUser(DatabaseReference databaseReference, String password, String name, String phoneNumber,String keyValue) {
 
 
         UUID uuid = UUID.randomUUID();
         String randomUUIDString = uuid.toString();
 
 
-        String k = randomUUIDString;
-        k="User"+k;
+        String k = keyValue;
+
 
         databaseReference.child(k).child("user name").setValue(name);
         databaseReference.child(k).child("phone number").setValue(phoneNumber);
-        databaseReference.child(k).child("id").setValue(randomUUIDString);
+        databaseReference.child(k).child("id").setValue(keyValue);
         databaseReference.child(k).child("user type").setValue("Passenger");
         databaseReference.child(k).child("password").setValue(password);
-        databaseReference.child(k).child("email").setValue(name+"@gmail.com");
+       // databaseReference.child(k).child("email").setValue(name+"@gmail.com");
 
 
     }

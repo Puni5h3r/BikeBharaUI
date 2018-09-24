@@ -14,6 +14,10 @@ public class RideHistoryList {
         this.phoneNumber = phoneNumber;
         this.timeDate = timeDate;
     }
+    public RideHistoryList(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getName() {
         return name;

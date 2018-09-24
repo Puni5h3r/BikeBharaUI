@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 
 
@@ -46,7 +47,11 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
         btnRideHistory = view.findViewById(R.id.btnRideHistory);
         btnDepositHistory = view.findViewById(R.id.btnDepositHistory);
         btnLogRide = view.findViewById(R.id.btnLogRide);
-
+        boolean flag = true;
+        if(Session.getUserType()==flag){
+            btnUserManagement.setVisibility(View.INVISIBLE);
+            btnUserManagement.setVisibility(View.GONE);
+        }
         setListener();
         return view;
     }

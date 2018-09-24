@@ -22,6 +22,7 @@ import android.widget.EditText;
 
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.model.LogRideList;
 import com.example.hp.bikebharaui.model.TransactionHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
@@ -99,7 +100,7 @@ public class LogRideFragment extends BaseFragment implements IOnOptionsItemPress
         DatabaseReference dbLogRideReference = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
         getData(dbLogRideReference);
 
-       // prepareData();
+
 
         edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -135,18 +136,36 @@ public class LogRideFragment extends BaseFragment implements IOnOptionsItemPress
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 logRideLists.clear();
-                for(DataSnapshot data:dataSnapshot.getChildren()){
-                    String checker = (String) data.child("user type").getValue();
-                    if (checker.equals("Passenger") && checker!=null){
-                    String name = (String) data.child("name").getValue();
-                    String phnNumber = (String) data.child("phone number").getValue();
-                    String time = (String) data.child("time").getValue();
-                        String id = (String) data.child("id").getValue();
-                    LogRideList logRideListListModel = new LogRideList(name,phnNumber,time);
-                    logRideListListModel.setLogRideId(id);
-                    logRideLists.add(logRideListListModel);
-                    Log.e("TAG", "onDataChange: "+data+"\t"+phnNumber+" "+time+"\t"+id+"\t");
-                }
+                for(DataSnapshot data:dataSnapshot.getChildren()) {
+                    if (Session.getUserType()) {
+                        String checker = (String) data.child("user type").getValue();
+                        String idChecker = (String) data.child("id").getValue();
+                        if (checker != null && idChecker != null) {
+                            if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
+                                String name = (String) data.child("name").getValue();
+                                String phnNumber = (String) data.child("phone number").getValue();
+                                String time = (String) data.child("time").getValue();
+                                String id = (String) data.child("id").getValue();
+                                LogRideList logRideListListModel = new LogRideList(name, phnNumber, time);
+                                logRideListListModel.setLogRideId(id);
+                                logRideLists.add(logRideListListModel);
+
+                            }
+                        }
+                    }else {
+                            String checker = (String) data.child("user type").getValue();
+                            if (checker != null && checker.equals("Passenger")) {
+                                String name = (String) data.child("name").getValue();
+                                String phnNumber = (String) data.child("phone number").getValue();
+                                String time = (String) data.child("time").getValue();
+                                String id = (String) data.child("id").getValue();
+                                LogRideList logRideListListModel = new LogRideList(name, phnNumber, time);
+                                logRideListListModel.setLogRideId(id);
+                                logRideLists.add(logRideListListModel);
+                                Log.e("TAG", "onDataChange: " + data + "\t" + phnNumber + " " + time + "\t" + id + "\t");
+                            }
+                        }
+
                 }
 
                 mAdapter.notifyDataSetChanged();
