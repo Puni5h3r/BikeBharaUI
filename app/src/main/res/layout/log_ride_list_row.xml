@@ -43,19 +43,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.885" />
-
-    <ImageButton
-        android:id="@+id/btn_logRide_delete"
+    <TextView
+        android:id="@+id/textView_amount_log_ride"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_action_delete"
-        android:text="Delete"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:layout_height="15dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="16dp"
+        android:text="500 Tk"
+        android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="18dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/takalogo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView_amount_log_ride"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/btn_logRide_delete"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="28dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:background="@drawable/ic_action_delete"-->
+        <!--android:text="Delete"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textStyle="bold"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
 </android.support.constraint.ConstraintLayout>

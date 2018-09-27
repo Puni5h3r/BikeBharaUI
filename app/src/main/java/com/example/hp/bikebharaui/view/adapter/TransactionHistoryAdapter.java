@@ -16,12 +16,6 @@ import java.util.List;
 public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.MyViewHolder> {
   private List<TransactionHistoryList> transactionHistoryListList;
 
-    public void updateList(List<TransactionHistoryList> newList) {
-            transactionHistoryListList = new ArrayList<>();
-            transactionHistoryListList.addAll(newList);
-            notifyDataSetChanged();
-        }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, phone, date, amount, depositeride;

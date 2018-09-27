@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.R;
+import com.example.hp.bikebharaui.Session;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
 import com.google.firebase.database.DataSnapshot;
@@ -119,7 +120,9 @@ public class AddEditUserFragment extends BaseFragment implements IOnOptionsItemP
 
                             String name = edtInputName.getText().toString();
                             String phoneNumber = edtInputMobile.getText().toString();
-                            String keyValue = phoneNumber;
+                        String keyValue="";
+                            if(!Session.getUserType()){
+                             keyValue = Session.getRiderid();}
                             InsertData insertData = new InsertData();
                             insertData.addUser(userHistoryRef, passwordInput,name, phoneNumber,keyValue);
                             loadFragment(new UserManagementFragment());

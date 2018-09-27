@@ -22,7 +22,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
     private Button btnUserManagement, btnRideHistory, btnDepositHistory, btnLogRide;
 
 
- //   private int countBackPress = 0;
+
 
     public DashbordFragment() {
     }
@@ -47,8 +47,7 @@ public class DashbordFragment extends BaseFragment implements View.OnClickListen
         btnRideHistory = view.findViewById(R.id.btnRideHistory);
         btnDepositHistory = view.findViewById(R.id.btnDepositHistory);
         btnLogRide = view.findViewById(R.id.btnLogRide);
-        boolean flag = true;
-        if(Session.getUserType()==flag){
+        if(Session.getUserType()){
             btnUserManagement.setVisibility(View.INVISIBLE);
             btnUserManagement.setVisibility(View.GONE);
         }

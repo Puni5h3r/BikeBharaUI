@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
@@ -49,7 +50,8 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
     private RecyclerView recyclerView;
     private DeposityHistoryAdapter mAdapter;
     private EditText edtSearchbox;
-
+    private ImageButton imageSearchBUtton;
+    private Double outStanding =0.00;
     FirebaseDatabase firebaseDatabaseInstance;
 
     Context mContext;
@@ -70,6 +72,7 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
 
         recyclerView = view.findViewById(R.id.deposite_history_recyclerview);
         edtSearchbox = view.findViewById(R.id.edittext_searchbox_deposit_history);
+        imageSearchBUtton = view.findViewById(R.id.button_searchbox_deposit_history);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity!=null){
@@ -95,6 +98,10 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
                 loadFragment(new DepositMoneyFrag());
             }
         });
+        if(Session.getUserType()){
+            fabDepositeHistory.setVisibility(View.INVISIBLE);
+            fabDepositeHistory.setVisibility(View.GONE);
+        }
 
         mAdapter = new DeposityHistoryAdapter(depositeHistoryLists);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -108,32 +115,38 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
         DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
 
         getData(rideHistoryRef);
-
-        edtSearchbox.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            String userInput = s.toString().toLowerCase();
-            List<DepositeHistoryList> newList = new ArrayList<>();
-                for(DepositeHistoryList depositeHistoryList : depositeHistoryLists){
-                    String name = depositeHistoryList.getName().toLowerCase();
-                    if(name.contains(userInput)){
-                        newList.add(depositeHistoryList);
-                    }
+            if(!Session.getUserType()){
+            edtSearchbox.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                 }
-                mAdapter.updateList(newList);
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String userInput = s.toString().toLowerCase();
+                    List<DepositeHistoryList> newList = new ArrayList<>();
+                    for (DepositeHistoryList depositeHistoryList : depositeHistoryLists) {
+                        String name = depositeHistoryList.getName().toLowerCase();
+                        if (name.contains(userInput)) {
+                            newList.add(depositeHistoryList);
+                        }
+
+                    }
+                    mAdapter.updateList(newList);
+                }
+            });}else{
+                edtSearchbox.setFocusable(false);
+                imageSearchBUtton.setVisibility(View.INVISIBLE);
+                imageSearchBUtton.setVisibility(View.GONE);
+
             }
-        });
+
         return view;
     }
 
@@ -143,11 +156,42 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 depositeHistoryLists.clear();
                 for(DataSnapshot data:dataSnapshot.getChildren()) {
-                    if (Session.getUserType()==true) {
+                    if (Session.getUserType()) {
                         String checker = (String) data.child("user type").getValue();
                         String idChecker = (String) data.child("id").getValue();
-                        if (checker != null && idChecker!=null) {
-                            if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
+                        String rideORDEPOSIT = (String) data.child("transfer type").getValue();
+                        String phnNumberChecker = (String) data.child("phone number").getValue();
+                        if (checker != null && idChecker!=null && rideORDEPOSIT!=null && phnNumberChecker!=null) {
+                            if(checker.equals("Passenger") && idChecker.equals(Session.getPassengerid()) && rideORDEPOSIT.equals("Ride")
+                                    && phnNumberChecker.equals(Session.getPassengerphnNumber())){
+                                String amount = (String) data.child("amount").getValue();
+                                Double value = Double.parseDouble(amount);
+                                outStanding=outStanding-value;
+
+                            }
+                            if (checker.equals("Passenger") && idChecker.equals(Session.getPassengerid()) && rideORDEPOSIT.equals("Deposit")
+                                    && phnNumberChecker.equals(Session.getPassengerphnNumber())) {
+                                String name = (String) data.child("name").getValue();
+                                String phnNumber = (String) data.child("phone number").getValue();
+                                String time = (String) data.child("time").getValue();
+                                String id = (String) data.child("id").getValue();
+                                // Long amt = (Long) data.child("amount").getValue();
+                                String amount = (String) data.child("amount").getValue();
+                                Double value = Double.parseDouble(amount);
+                                outStanding=outStanding+value;
+                                DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name, phnNumber, time, amount);
+                                depositeHistoryModel.setDepositHisotryid(id);
+                                depositeHistoryLists.add(depositeHistoryModel);
+                            }
+                            String k = "OutStanding: "+Double.toString(outStanding);
+                            edtSearchbox.setText(k);
+                        }
+                    } else {
+                        String checker = (String) data.child("user type").getValue();
+                        String idChecker = (String) data.child("id").getValue();
+                        String rideORDEPOSIT = (String) data.child("transfer type").getValue();
+                        if (checker != null && idChecker!=null && rideORDEPOSIT!=null) {
+                            if(checker.equals("Passenger") && idChecker.equals(Session.getRiderid()) && rideORDEPOSIT.equals("Deposit")) {
                                 String name = (String) data.child("name").getValue();
                                 String phnNumber = (String) data.child("phone number").getValue();
                                 String time = (String) data.child("time").getValue();
@@ -158,19 +202,6 @@ public class DepositHistoryFragment extends BaseFragment implements IOnOptionsIt
                                 depositeHistoryModel.setDepositHisotryid(id);
                                 depositeHistoryLists.add(depositeHistoryModel);
                             }
-                        }
-                    } else {
-                        String checker = (String) data.child("user type").getValue();
-                        if (checker != null && checker.equals("Passenger")) {
-                            String name = (String) data.child("name").getValue();
-                            String phnNumber = (String) data.child("phone number").getValue();
-                            String time = (String) data.child("time").getValue();
-                            String id = (String) data.child("id").getValue();
-                            // Long amt = (Long) data.child("amount").getValue();
-                            String amount = (String) data.child("amount").getValue();
-                            DepositeHistoryList depositeHistoryModel = new DepositeHistoryList(name, phnNumber, time, amount);
-                            depositeHistoryModel.setDepositHisotryid(id);
-                            depositeHistoryLists.add(depositeHistoryModel);
                             }
                     }
                 }

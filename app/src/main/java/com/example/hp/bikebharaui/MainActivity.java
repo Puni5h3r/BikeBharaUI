@@ -96,9 +96,16 @@ public class MainActivity extends AppCompatActivity {
                     if(passwordChecker!=null && userNameChecker!=null && userType!=null && id!=null && phnNumber!=null){
                         if(passwordChecker.equals(password) && userNameChecker.equals(userName)){
                             Session.setUserType(userType);
-                            Session.setId(id);
-                            Session.setPhnNumber(phnNumber);
-                            Session.setName(userNameChecker);
+                            if(!Session.getUserType()){
+                            Session.setRiderId(id);
+                            Session.setRiderPhnNumber(phnNumber);
+                            Session.setRiderName(userNameChecker);}
+                            else if(Session.getUserType()){
+                                Session.setPassengerid(id);
+                                Session.setPassengerphnNumber(phnNumber);
+                                Session.setPassengerName(userNameChecker);
+
+                            }
                             Intent intent = new Intent(MainActivity.this,DashboardActivity.class);
                             startActivity(intent);
                             flag = true;

@@ -94,9 +94,9 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
             public void onClickListener(int position) {
                 UserManagementList userManagementList = new UserManagementList();
                 userManagementList = userManagementListArrayList.get(position);
-              Session.setName(userManagementList.getName());
-              Session.setId(userManagementList.getUserManagementListID());
-                Session.setPhnNumber( userManagementList.getPhoneNumber());
+              Session.setPassengerName(userManagementList.getName());
+              Session.setPassengerid(userManagementList.getUserManagementListID());
+                Session.setPassengerphnNumber( userManagementList.getPhoneNumber());
                 loadFragment(new TransactionHistoryFragment());
             }
         });
@@ -129,16 +129,19 @@ public class UserManagementFragment extends BaseFragment implements IOnOptionsIt
                 userManagementListArrayList.clear();
                 for(DataSnapshot data:dataSnapshot.getChildren()) {
                     String checker = (String)data.child("user type").getValue();
-                    if (checker!=null&&checker.equals("Passenger")) {
-                        String name = (String) data.child("user name").getValue();
-                        String phnNumber = (String) data.child("phone number").getValue();
-                        String time = (String) data.child("time").getValue();
-                        String id = (String) data.child("id").getValue();
-                        UserManagementList userManagementList = new UserManagementList(name, phnNumber);
-                        userManagementList.setUserManagementListID(id);
-                        userManagementListArrayList.add(userManagementList);
-                        Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
-                    }
+                    String idChecker = (String)data.child("id").getValue();
+                    if (checker!=null && idChecker!=null) {
+                        if(checker.equals("Passenger") && idChecker.equals(Session.getRiderid()) ) {
+                            String name = (String) data.child("user name").getValue();
+                            String phnNumber = (String) data.child("phone number").getValue();
+                            String time = (String) data.child("time").getValue();
+                            String id = (String) data.child("id").getValue();
+                            UserManagementList userManagementList = new UserManagementList(name, phnNumber);
+                            userManagementList.setUserManagementListID(id);
+                            userManagementListArrayList.add(userManagementList);
+                            Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
+                        }
+                        }
                 }
 
                 mAdapter.notifyDataSetChanged();

@@ -73,11 +73,10 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
         adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_dropdown_item,userNames);
         mContext = getContext();
         DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("User");
-        boolean Passenger = true;
-        if(Session.getUserType()==Passenger){
-            String name = Session.getName();
-            String id = Session.getId();
-            String phnNumber = Session.getPhnNumber();
+        if(Session.getUserType()){
+            String name = Session.getPassengerName();
+            String id = Session.getPassengerid();
+            String phnNumber = Session.getPassengerphnNumber();
             if (name!=null && id!=null && phnNumber!=null) {
                 rideHistoryList = new RideHistoryList();
                 userNames.add(name);
@@ -133,16 +132,18 @@ public class LogRideMoneyFragment extends BaseFragment implements AdapterView.On
                 rideHistoryLists.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     String userType = (String) data.child("user type").getValue();
-                    if(userType!=null && userType.equals(checker)) {
-                        String names = (String) data.child("user name").getValue();
-                        String phnNumber = (String) data.child("phone number").getValue();
-                        String time = (String) data.child("time").getValue();
-                        String id = (String) data.child("id").getValue();
-                        userNames.add(names);
-                        RideHistoryList rideHistoryListModel = new RideHistoryList(names, phnNumber, time);
-                        rideHistoryListModel.setRideHistoryId(id);
-                        rideHistoryLists.add(rideHistoryListModel);
-
+                    String idChecker = (String) data.child("id").getValue();
+                    if(userType!=null && idChecker!=null) {
+                        if(userType.equals(checker) && idChecker.equals(Session.getRiderid())) {
+                            String names = (String) data.child("user name").getValue();
+                            String phnNumber = (String) data.child("phone number").getValue();
+                            String time = (String) data.child("time").getValue();
+                            String id = (String) data.child("id").getValue();
+                            userNames.add(names);
+                            RideHistoryList rideHistoryListModel = new RideHistoryList(names, phnNumber, time);
+                            rideHistoryListModel.setRideHistoryId(id);
+                            rideHistoryLists.add(rideHistoryListModel);
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged();

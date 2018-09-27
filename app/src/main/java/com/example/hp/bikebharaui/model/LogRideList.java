@@ -5,6 +5,7 @@ public class LogRideList {
     private String phoneNumber;
     private String timeDate;
     private String logRideId;
+    private String amount;
 
     public LogRideList() {
     }
@@ -49,5 +50,13 @@ public class LogRideList {
 
     public void setLogRideId(String logRideId) {
         this.logRideId = logRideId;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

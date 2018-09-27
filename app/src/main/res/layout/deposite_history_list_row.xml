@@ -24,20 +24,22 @@
         android:id="@+id/textView_amount"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
-        android:layout_marginStart="93dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="228dp"
         android:layout_marginTop="16dp"
         android:text="500 Tk"
-        android:textStyle="bold"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_name2"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="18dp"
         android:scaleType="fitCenter"
         android:src="@drawable/takalogo"
         app:layout_constraintEnd_toEndOf="parent"

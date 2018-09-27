@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
@@ -43,11 +44,13 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
 
     private Toolbar toolbar;
     private FloatingActionButton fabRideHistoryActivity;
+    private ImageButton imageButton;
 
     private List<RideHistoryList> rideHistoryLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private RideHistoryAdapter mAdapter;
     private EditText edtSearchView;
+    private Double outStanding =0.00;
 
     private FirebaseDatabase firebaseDatabaseInstance;
 
@@ -64,6 +67,7 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
         View view = inflater.inflate(R.layout.frag_ride_history,container,false);
 
         mContext = getContext();
+        imageButton = view.findViewById(R.id.button_searchbox_ride_history);
 
         fabRideHistoryActivity = view.findViewById(R.id.fab_ride_history);
         edtSearchView = view.findViewById(R.id.edittext_searchbox_ride_history);
@@ -76,6 +80,10 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
                 loadFragment(new LogRideMoneyFragment());
             }
         });
+        if(Session.getUserType()){
+            fabRideHistoryActivity.setVisibility(View.INVISIBLE);
+            fabRideHistoryActivity.setVisibility(View.GONE);
+        }
 
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         if(activity!=null){
@@ -104,33 +112,37 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
         DatabaseReference rideHistoryRef = firebaseDatabaseInstance.getReference().child("DB").child("Ride History");
 
         getData(rideHistoryRef);
-
-        edtSearchView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String userInput = s.toString().toLowerCase();
-                List<RideHistoryList> newList = new ArrayList<>();
-                for(RideHistoryList rideHistoryList : rideHistoryLists){
-                    String name = rideHistoryList.getName().toLowerCase();
-                    if(name.contains(userInput)){
-                        newList.add(rideHistoryList);
-                    }
+        if(!Session.getUserType()) {
+            edtSearchView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                 }
-                mAdapter.updateList(newList);
-            }
-        });
 
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String userInput = s.toString().toLowerCase();
+                    List<RideHistoryList> newList = new ArrayList<>();
+                    for (RideHistoryList rideHistoryList : rideHistoryLists) {
+                        String name = rideHistoryList.getName().toLowerCase();
+                        if (name.contains(userInput)) {
+                            newList.add(rideHistoryList);
+                        }
+
+                    }
+                    mAdapter.updateList(newList);
+                }
+            });
+        }else{
+            edtSearchView.setFocusable(false);
+            imageButton.setVisibility(View.INVISIBLE);
+            imageButton.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -143,32 +155,52 @@ public class RideHistoryFragment extends BaseFragment implements IOnOptionsItemP
                     if (Session.getUserType()) {
                         String checker = (String) data.child("user type").getValue();
                         String idChecker = (String) data.child("id").getValue();
-                        if (checker != null && idChecker!=null) {
-                            if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
-                                String name = (String) data.child("name").getValue();
-                                String phnNumber = (String) data.child("phone number").getValue();
-                                String time = (String) data.child("time").getValue();
-                                String id = (String) data.child("id").getValue();
-                                // Long amt = (Long) data.child("amount").getValue();
+                        String rideORDEPOSIT = (String) data.child("transfer type").getValue();
+                        String phnNumberChecker = (String) data.child("phone number").getValue();
+                        if (checker != null && idChecker!=null && rideORDEPOSIT!=null && phnNumberChecker!=null) {
+                            if(checker.equals("Passenger") && idChecker.equals(Session.getPassengerid()) && rideORDEPOSIT.equals("Deposit")
+                                    && phnNumberChecker.equals(Session.getPassengerphnNumber())) {
                                 String amount = (String) data.child("amount").getValue();
-                                RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
-                                rideHistoryListModel.setRideHistoryId(id);
-                                rideHistoryLists.add(rideHistoryListModel);;
+                                double value = Double.parseDouble(amount);
+                                outStanding = outStanding+value;
                             }
+                                if (checker.equals("Passenger") && idChecker.equals(Session.getPassengerid()) && rideORDEPOSIT.equals("Ride")
+                                        && phnNumberChecker.equals(Session.getPassengerphnNumber())) {
+                                    String name = (String) data.child("name").getValue();
+                                    String phnNumber = (String) data.child("phone number").getValue();
+                                    String time = (String) data.child("time").getValue();
+                                    String id = (String) data.child("id").getValue();
+                                    // Long amt = (Long) data.child("amount").getValue();
+                                    String amount = (String) data.child("amount").getValue();
+                                    double value = Double.parseDouble(amount);
+                                    outStanding = outStanding-value;
+                                    RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
+                                    rideHistoryListModel.setAmount(amount);
+                                    rideHistoryListModel.setRideHistoryId(id);
+                                    rideHistoryLists.add(rideHistoryListModel);
+
+                                }
+                                String k = "OutStanding: "+Double.toString(outStanding);
+                                edtSearchView.setText(k);
                         }
                     }
                     else{
                         String checker = (String) data.child("user type").getValue();
-                        if (checker != null && checker.equals("Passenger")) {
-                            String name = (String) data.child("name").getValue();
-                            String phnNumber = (String) data.child("phone number").getValue();
-                            String time = (String) data.child("time").getValue();
-                            String id = (String) data.child("id").getValue();
-                            RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
-                            rideHistoryListModel.setRideHistoryId(id);
-                            rideHistoryLists.add(rideHistoryListModel);
-                            Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
-
+                        String idChecker = (String) data.child("id").getValue();
+                        String rideORDEPOSIT = (String) data.child("transfer type").getValue();
+                        if (checker != null && idChecker!=null && rideORDEPOSIT!=null) {
+                            if (checker.equals("Passenger") && idChecker.equals(Session.getRiderid()) && rideORDEPOSIT.equals("Ride")) {
+                                String name = (String) data.child("name").getValue();
+                                String phnNumber = (String) data.child("phone number").getValue();
+                                String time = (String) data.child("time").getValue();
+                                String id = (String) data.child("id").getValue();
+                                String amount = (String) data.child("amount").getValue();
+                                RideHistoryList rideHistoryListModel = new RideHistoryList(name, phnNumber, time);
+                                rideHistoryListModel.setAmount(amount);
+                                rideHistoryListModel.setRideHistoryId(id);
+                                rideHistoryLists.add(rideHistoryListModel);
+                                Log.e("TAG", "onDataChange: " + name + "\t" + phnNumber + " " + time + "\t" + id);
+                            }
                         }
                     }
                 }

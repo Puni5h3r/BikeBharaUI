@@ -26,13 +26,14 @@ public class LogRideAdapter extends RecyclerView.Adapter<LogRideAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, phone, date;
+        public TextView name, phone, date, amount;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.textView_name3);
             phone = (TextView) view.findViewById(R.id.textView_phone3);
             date = (TextView) view.findViewById(R.id.textView_date3);
+            amount = (TextView) view.findViewById(R.id.textView_amount_log_ride);
 
         }
     }
@@ -59,6 +60,7 @@ public class LogRideAdapter extends RecyclerView.Adapter<LogRideAdapter.MyViewHo
         holder.name.setText(rideHistoryList.getName());
         holder.phone.setText(rideHistoryList.getPhoneNumber());
         holder.date.setText(rideHistoryList.getTimeDate());
+        holder.amount.setText(rideHistoryList.getAmount());
 
     }
 

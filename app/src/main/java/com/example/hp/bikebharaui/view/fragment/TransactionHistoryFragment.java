@@ -2,7 +2,6 @@ package com.example.hp.bikebharaui.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -19,13 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
-import com.example.hp.bikebharaui.InsertData;
 import com.example.hp.bikebharaui.MyDividerItemDecoration;
 import com.example.hp.bikebharaui.R;
 import com.example.hp.bikebharaui.Session;
-import com.example.hp.bikebharaui.model.RideHistoryList;
 import com.example.hp.bikebharaui.model.TransactionHistoryList;
 import com.example.hp.bikebharaui.view.Interface.IOnBackPressed;
 import com.example.hp.bikebharaui.view.Interface.IOnOptionsItemPress;
@@ -47,7 +44,8 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
     private List<TransactionHistoryList> transactionHistoryLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private TransactionHistoryAdapter mAdapter;
-    private EditText edtSearch;
+    private TextView txtViewOUTStanding;
+    private double outstanding=0.00;
 
     private FirebaseDatabase firebaseDatabaseInstance;
 
@@ -66,7 +64,7 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_transaction_history, container, false);
         mContext = getContext();
-        edtSearch = view.findViewById(R.id.edittext_searchbox_transaction_history);
+        txtViewOUTStanding = view.findViewById(R.id.textView_outstanding_transaction_history);
         recyclerView = view.findViewById(R.id.transaction_history_recyclerView);
 
 
@@ -96,30 +94,7 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
         getData(dbTranHistReference);
 
 
-        edtSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String userInput = s.toString().toLowerCase();
-                List<TransactionHistoryList> newList = new ArrayList<>();
-                for(TransactionHistoryList transactionHistoryList : transactionHistoryLists){
-                    String name = transactionHistoryList.getName().toLowerCase();
-                    if(name.contains(userInput)){
-                        newList.add(transactionHistoryList);
-                    }
-            }
-            mAdapter.updateList(newList);
-            }
-        });
 
         return view;
     }
@@ -133,14 +108,25 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
                 if (!Session.getUserType()) {
                     String idChecker = (String) data.child("id").getValue();
                     String checker = (String) data.child("user type").getValue();
-                    if (checker != null && idChecker!=null) {
-                        if (checker.equals("Passenger") && idChecker.equals(Session.getId())) {
+                    String phnNOChecker = (String) data.child("phone number").getValue();
+
+                    if (checker != null && idChecker!=null && phnNOChecker!=null) {
+                        if (checker.equals("Passenger") && idChecker.equals(Session.getPassengerid()) && phnNOChecker.equals(Session.getPassengerphnNumber())) {
                             String name = (String) data.child("name").getValue();
                             String phnNumber = (String) data.child("phone number").getValue();
                             String time = (String) data.child("time").getValue();
                             String id = (String) data.child("id").getValue();
                             String rideORDEPOSIT = (String) data.child("transfer type").getValue();
                             String amount = (String) data.child("amount").getValue();
+                            if(rideORDEPOSIT!=null && amount!=null) {
+                                if (rideORDEPOSIT.equals("Deposit")) {
+                                    double value = Double.parseDouble(amount);
+                                    outstanding = value + outstanding;
+                                } else {
+                                    double value = Double.parseDouble(amount);
+                                    outstanding = outstanding - value;
+                                }
+                            }
                             TransactionHistoryList transactionHistoryListModel = new TransactionHistoryList(name, phnNumber, time, amount, rideORDEPOSIT);
                             transactionHistoryListModel.setTransactionHistoryId(id);
                             transactionHistoryLists.add(transactionHistoryListModel);
@@ -151,6 +137,7 @@ public class TransactionHistoryFragment extends BaseFragment implements IOnOptio
             }
 
                 mAdapter.notifyDataSetChanged();
+            txtViewOUTStanding.setText("OutStanding: "+Double.toString(outstanding));
             Log.e("TAG", "onDataChange: "+dataSnapshot);
         }
 

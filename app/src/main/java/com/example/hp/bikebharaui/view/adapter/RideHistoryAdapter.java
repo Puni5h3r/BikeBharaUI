@@ -16,14 +16,14 @@ public class RideHistoryAdapter extends RecyclerView.Adapter<RideHistoryAdapter.
     private List<RideHistoryList> rideHistoryLists;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, phone, date;
+        public TextView name, phone, date, amount;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.textView_name1);
             phone = (TextView) view.findViewById(R.id.textView_phone1);
             date = (TextView) view.findViewById(R.id.textView_date1);
-
+            amount = (TextView) view.findViewById(R.id.textView_amount_rideHistory);
         }
     }
 
@@ -46,6 +46,7 @@ public class RideHistoryAdapter extends RecyclerView.Adapter<RideHistoryAdapter.
         holder.name.setText(rideHistoryList.getName());
         holder.phone.setText(rideHistoryList.getPhoneNumber());
         holder.date.setText(rideHistoryList.getTimeDate());
+        holder.amount.setText(rideHistoryList.getAmount());
     }
 
     @Override
