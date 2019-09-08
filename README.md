@@ -6,9 +6,9 @@ I made a restful api using google firebase
 which holds the information of a customer and a biker. 
 moreover, they can keep a record of their transaction between them
 
-<img src = "image1.png" width="200" height="300">
-<img src = "image2.png" width="200" height="300">
-<img src = "image3.png" width="200" height="300">
+
+
+
 <img src = "image4.png" width="200" height="300">
 <img src = "image5.png" width="200" height="300">
 <img src = "image6.png" width="200" height="300">
@@ -16,13 +16,13 @@ moreover, they can keep a record of their transaction between them
 
 <div class="row">
   <div class="column">
-    <img src="image1.png" alt="Snow" style="width:100%">
+    <img src = "image1.png" width="200" height="300">
   </div>
   <div class="column">
-    <img src="image2.png" alt="Forest" style="width:100%">
+    <img src = "image2.png" width="200" height="300">
   </div>
   <div class="column">
-    <img src="image3.png" alt="Mountains" style="width:100%">
+    <img src="image3.png" width="200" height="300">
   </div>
 </div>
 
