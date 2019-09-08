@@ -25,4 +25,16 @@ moreover, they can keep a record of their transaction between them
     <img src="image3.png" width="200" height="300">
   </div>
 </div>
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
 
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
